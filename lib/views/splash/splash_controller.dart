@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/paths.dart';
+import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/splash/splash_states.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -20,9 +21,10 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
     //Here should go all loading futures...
     await Future.wait([
       Parse().initialize(keyApplicationId, keyParseServerUrl,
-          clientKey: keyClientKey),
-
+          // ignore: invalid_return_type_for_catch_error
+          clientKey: keyClientKey).catchError(onError),
     ]);
+    Get.put(ProductService());
     await fetchData();
   }
 
@@ -36,5 +38,15 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
 
   void goHome() {
     Get.offNamed(Paths.home);
+  }
+
+  void onError(Object error) {
+    change(SplashStates.complete, status: RxStatus.error(error.toString()));
+  }
+
+  @override
+  void onClose() {
+    Get.delete<ProductService>();
+    super.onClose();
   }
 }
