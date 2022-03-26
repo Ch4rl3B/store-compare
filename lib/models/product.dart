@@ -6,6 +6,11 @@ class Product extends ParseObject implements ParseCloneable {
   Product() : super('Products');
   Product.clone() : this();
 
+  /// Looks strangely hacky but due to Flutter not using reflection, we have to
+  /// mimic a clone
+  @override
+  Product clone(Map<String, dynamic> map) => Product.clone()..fromJson(map);
+
   String get productName => get<String>('productName')!;
   set productName(String productName) =>
       set<String>('productName', productName);
