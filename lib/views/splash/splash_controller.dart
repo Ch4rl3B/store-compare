@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/paths.dart';
-import 'package:store_compare/models/product.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/splash/splash_states.dart';
 import 'package:supercharged/supercharged.dart';
@@ -27,6 +26,7 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
           registeredSubClassMap: <String, ParseObjectConstructor>{
             'Products': Product.new,
           },
+      // ignore: invalid_return_type_for_catch_error
       ).catchError(onError),
     ]);
     Get.put(ProductService());
