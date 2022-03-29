@@ -15,6 +15,7 @@ class HomeView extends GetView<HomeController> {
         title: controller.obx((state) => Visibility(
               visible: state! == HomeStates.search,
               child: TextField(
+                key: const ValueKey('#searchField'),
                 decoration: const InputDecoration(
                   hintText: 'type to search...',
                   hintStyle: TextStyle(
@@ -32,6 +33,7 @@ class HomeView extends GetView<HomeController> {
             )),
         actions: [
           IconButton(
+              key: const ValueKey('#search'),
               onPressed: controller.search,
               icon: controller.obx((state) => state! == HomeStates.settled
                   ? const Icon(Icons.search)

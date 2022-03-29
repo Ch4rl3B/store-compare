@@ -14,6 +14,7 @@ class ProductList extends StatelessWidget {
       itemExtent: 70,
       children: products
           .map((product) => ListTile(
+              key: ValueKey(product.objectId),
               leading: SizedBox(
                 width: 70,
                 child: Center(

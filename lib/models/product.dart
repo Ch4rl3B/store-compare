@@ -28,16 +28,16 @@ class Product extends ParseObject implements ParseCloneable {
       set<String>('category', category);
 
   bool get isPrimary => get<bool>('isPrimary')!;
-  set isPrimary(bool productName) =>
-      set<bool>('isPrimary', isPrimary);
+  set isPrimary(bool? isPrimary) =>
+      set<bool>('isPrimary', isPrimary ?? false);
 
   String get tag => get<String>('tag')!;
-  set tag(String productName) =>
+  set tag(String tag) =>
       set<String>('tag', tag);
 
   bool get isOffer => get<bool>('isOffer')!;
-  set isOffer(bool isOffer) =>
-      set<bool>('isOffer', isOffer);
+  set isOffer(bool? isOffer) =>
+      set<bool>('isOffer', isOffer ?? false);
 
   @override
   bool operator ==(Object other) {

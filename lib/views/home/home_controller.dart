@@ -5,7 +5,8 @@ import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/home/home_states.dart';
 
 class HomeController extends GetxController with StateMixin<HomeStates> {
-  final ProductService productService = Get.find<ProductService>();
+  final ProductServiceContract productService =
+      Get.find<ProductServiceContract>();
   late List<Product> products;
   late List<Product> filtered;
 
@@ -52,7 +53,7 @@ class HomeController extends GetxController with StateMixin<HomeStates> {
   }
 
   String get getMedia {
-    var list = filtered
+    final list = filtered
         .where((element) => element == products.first)
         .map((e) => e.price)
         .toList();

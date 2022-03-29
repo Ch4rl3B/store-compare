@@ -1,14 +1,12 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/constants/paths.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/splash/splash_states.dart';
 import 'package:supercharged/supercharged.dart';
 
 class SplashController extends GetxController with StateMixin<SplashStates> {
-  final keyApplicationId = 'IRNq7nLL7wg6lzkBOYMoz4AP7jDfKnvXyDoOPDY4';
-  final keyClientKey = 'PBlxGtwOGe24VEisoySlyj3MgjLHV8uAQDZIOvQd';
-  final keyParseServerUrl = 'https://parseapi.back4app.com';
 
   @override
   void onInit() {
@@ -21,15 +19,16 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
     //Here should go all loading futures...
     await Future.wait([
       Parse().initialize(keyApplicationId, keyParseServerUrl,
-          // ignore: invalid_return_type_for_catch_error
-          clientKey: keyClientKey,
-          registeredSubClassMap: <String, ParseObjectConstructor>{
-            'Products': Product.new,
-          },
-      // ignore: invalid_return_type_for_catch_error
+        // ignore: invalid_return_type_for_catch_error
+        clientKey: keyClientKey,
+        appName: keyApplicationName,
+        registeredSubClassMap: <String, ParseObjectConstructor>{
+          'Products': Product.new,
+        },
+        // ignore: invalid_return_type_for_catch_error
       ).catchError(onError),
     ]);
-    Get.put(ProductService());
+    Get.put<ProductServiceContract>(ProductService());
     await fetchData();
   }
 
