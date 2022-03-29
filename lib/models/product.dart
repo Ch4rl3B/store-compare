@@ -34,4 +34,17 @@ class Product extends ParseObject implements ParseCloneable {
   String get tag => get<String>('tag')!;
   set tag(String productName) =>
       set<String>('tag', tag);
+
+  bool get isOffer => get<bool>('isOffer')!;
+  set isOffer(bool isOffer) =>
+      set<bool>('isOffer', isOffer);
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Product) && productName == other.productName;
+  }
+
+  @override
+  int get hashCode => productName.hashCode;
+
 }

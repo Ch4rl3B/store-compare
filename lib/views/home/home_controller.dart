@@ -1,11 +1,13 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/home/home_states.dart';
 
-
 class HomeController extends GetxController with StateMixin<HomeStates> {
   final ProductService productService = Get.find<ProductService>();
   late List<Product> products;
+  late List<Product> filtered;
 
   @override
   void onInit() {
@@ -15,12 +17,12 @@ class HomeController extends GetxController with StateMixin<HomeStates> {
   }
 
   Future<void> loadData() async {
-     products = await productService.fetchAll();
-     change(HomeStates.settled, status: RxStatus.success());
+    products = await productService.fetchAll();
+    change(HomeStates.settled, status: RxStatus.success());
   }
 
   void search() {
-    if(state! == HomeStates.search){
+    if (state! == HomeStates.search) {
       loadData();
     } else {
       change(HomeStates.search, status: RxStatus.success());
@@ -28,7 +30,52 @@ class HomeController extends GetxController with StateMixin<HomeStates> {
   }
 
   Future<void> filter(String value) async {
-    products = await productService.filter(value);
+    filtered = await productService.filter(value);
+    products = filtered.toSet().toList();
     refresh();
+  }
+
+  String get getMax {
+    return filtered
+        .where((element) => element == products.first)
+        .map((e) => e.price)
+        .reduce(max)
+        .toString();
+  }
+
+  String get getMin {
+    return filtered
+        .where((element) => element == products.first && !element.isOffer)
+        .map((e) => e.price)
+        .reduce(min)
+        .toString();
+  }
+
+  String get getMedia {
+    var list = filtered
+        .where((element) => element == products.first)
+        .map((e) => e.price)
+        .toList();
+
+    if (list != null) {
+      // Count occurrences of each item
+      final folded = list.fold({}, (Map acc, num curr) {
+        acc[curr] = (acc[curr] ?? 0) + 1;
+        return acc;
+      });
+
+      // Sort the keys by its occurrences
+      final sortedKeys = folded.keys.toList()
+        ..sort((a, b) => folded[b].compareTo(folded[a]));
+
+      return sortedKeys.first.toString();
+    }
+    return products.first.price.toString();
+  }
+
+  int get offers {
+    return filtered
+        .where((element) => element == products.first && element.isOffer)
+        .length;
   }
 }

@@ -5,5 +5,6 @@ final Map<String, IconData> categories = {
   'alimento' : Icons.fastfood,
   'aseo' : Icons.shower,
   'limpieza' : Icons.delete,
-  'golosinas' : Icons.cookie
+  'golosinas' : Icons.cookie,
+  'test': Icons.bug_report
 };

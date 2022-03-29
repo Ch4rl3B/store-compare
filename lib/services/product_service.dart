@@ -10,8 +10,7 @@ class ProductService extends GetxService {
   Future<List<Product>> fetchAll() async {
     // Create your query
     final parseQuery = QueryBuilder<Product>(Product())
-      ..orderByAscending('category')
-      ..orderByAscending('productName');
+      ..orderByDescending('createdAt');
     // The query will resolve only after calling this method, retrieving
     // an array of `Product`, if success
     final apiResponse = await parseQuery.query<Product>();
@@ -31,8 +30,7 @@ class ProductService extends GetxService {
        QueryBuilder<Product>(Product())..whereContains('tag', filter),
        QueryBuilder<Product>(Product())..whereContains('category', filter),
      ]
-    )..orderByAscending('category')
-      ..orderByAscending('productName');
+    )..orderByDescending('createdAt');
     // The query will resolve only after calling this method, retrieving
     // an array of `Product`, if success
     final apiResponse = await parseQuery.query<Product>();
