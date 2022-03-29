@@ -58,7 +58,7 @@ class HomeController extends GetxController with StateMixin<HomeStates> {
         .map((e) => e.price)
         .toList();
 
-    if (list != null) {
+    if (list.isNotEmpty) {
       // Count occurrences of each item
       final folded = list.fold({}, (Map acc, num curr) {
         acc[curr] = (acc[curr] ?? 0) + 1;

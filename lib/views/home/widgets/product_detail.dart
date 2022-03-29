@@ -35,13 +35,13 @@ class ProductDetail extends GetView<HomeController> {
             width: 70,
             child: Container(
               decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.amber
-              ),
+                  shape: BoxShape.circle, color: Colors.amber),
               height: 25,
               child: Center(
-                child: Text(controller.offers.toString(), style: const TextStyle(
-                    fontSize: 16),),
+                child: Text(
+                  controller.offers.toString(),
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
             ),
           ),
@@ -79,9 +79,7 @@ class ProductDetail extends GetView<HomeController> {
                 style: ElevatedButton.styleFrom(
                   primary: context.theme.primaryColorLight,
                 ),
-                child: Text(
-                  'low: ${controller.getMin}'
-                ),
+                child: Text('low: ${controller.getMin}'),
               ),
             )
           ],
