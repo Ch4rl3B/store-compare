@@ -14,42 +14,46 @@ class ProductList extends StatelessWidget {
       itemExtent: 70,
       children: products
           .map((product) => ListTile(
-              key: ValueKey(product.objectId),
-              leading: SizedBox(
-                width: 70,
-                child: Center(
-                    child: Icon(categories[product.category],
-                        size: 35,
-                        color: product.isPrimary
-                            ? context.theme.toggleableActiveColor
-                            : null)),
-              ),
-              title: Text(product.productName,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: product.isPrimary
-                          ? context.theme.toggleableActiveColor
-                          : null)),
-              subtitle: Text(product.tag,
-                  style: const TextStyle(fontSize: 15)),
-        trailing: SizedBox(
-          width: 70,
-          child: Center(
-            child: Text.rich(
-              TextSpan(text: product.price.toString(), style: TextStyle(
-                  fontSize: 14,
-                  color: context.theme.colorScheme.primary),
-                  children: [
-                    if(product.isOffer)
-                      const TextSpan(text: ' ☻ ', style: TextStyle(
+                key: ValueKey(product.objectId),
+                leading: SizedBox(
+                  width: 70,
+                  child: Center(
+                      child: Icon(categories[product.category],
+                          size: 35,
+                          color: product.isPrimary
+                              ? context.theme.toggleableActiveColor
+                              : null)),
+                ),
+                title: Text.rich(
+                  TextSpan(
+                      text: product.productName,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: product.isPrimary
+                              ? context.theme.toggleableActiveColor
+                              : null),
+                      children: [
+                        if (product.isOffer)
+                          const TextSpan(
+                              text: ' ☻ ',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.amber))
+                      ]),
+                ),
+                subtitle:
+                    Text(product.tag, style: const TextStyle(fontSize: 15)),
+                trailing: SizedBox(
+                  width: 70,
+                  child: Center(
+                    child: Text(
+                      '€ ${product.price.toStringAsFixed(2)}',
+                      style: TextStyle(
                           fontSize: 14,
-                          color: Colors.amber))
-                  ]
-              ),
-            ),
-          ),
-        ),
-      ))
+                          color: context.theme.colorScheme.primary),
+                    ),
+                  ),
+                ),
+              ))
           .toList(),
     );
   }

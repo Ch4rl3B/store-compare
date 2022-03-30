@@ -1,4 +1,4 @@
-
+import 'package:store_compare/constants/keys.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class Product extends ParseObject implements ParseCloneable {
@@ -11,33 +11,33 @@ class Product extends ParseObject implements ParseCloneable {
   @override
   Product clone(Map<String, dynamic> map) => Product.clone()..fromJson(map);
 
-  String get productName => get<String>('productName')!;
+  String get productName => get<String>(keyName)!;
   set productName(String productName) =>
-      set<String>('productName', productName);
+      set<String>(keyName, productName);
 
-  num get price => get<num>('price')!;
+  num get price => get<num>(keyPrice)!;
   set price(num price) =>
-      set<num>('price', price);
+      set<num>(keyPrice, price);
 
-  num get realPrice => get<num>('realPrice')!;
+  num get realPrice => get<num>(keyRealPrice)!;
   set realPrice(num realPrice) =>
-      set<num>('realPrice', realPrice);
+      set<num>(keyRealPrice, realPrice);
 
-  String get category => get<String>('category')!;
+  String get category => get<String>(keyCategory)!;
   set category(String category) =>
-      set<String>('category', category);
+      set<String>(keyCategory, category);
 
-  bool get isPrimary => get<bool>('isPrimary')!;
+  bool get isPrimary => get<bool>(keyIsPrimary)!;
   set isPrimary(bool? isPrimary) =>
-      set<bool>('isPrimary', isPrimary ?? false);
+      set<bool>(keyIsPrimary, isPrimary ?? false);
 
-  String get tag => get<String>('tag')!;
+  String get tag => get<String>(keyTag)!;
   set tag(String tag) =>
-      set<String>('tag', tag);
+      set<String>(keyTag, tag);
 
-  bool get isOffer => get<bool>('isOffer')!;
+  bool get isOffer => get<bool>(keyIsOffer)!;
   set isOffer(bool? isOffer) =>
-      set<bool>('isOffer', isOffer ?? false);
+      set<bool>(keyIsOffer, isOffer ?? false);
 
   @override
   bool operator ==(Object other) {
@@ -47,4 +47,14 @@ class Product extends ParseObject implements ParseCloneable {
   @override
   int get hashCode => productName.hashCode;
 
+  factory Product.fromMap(Map<String, dynamic> objectData) {
+    return Product()
+      ..productName = objectData[keyName]
+      ..tag = objectData[keyTag]
+      ..price = objectData[keyPrice]
+      ..realPrice = objectData[keyRealPrice]
+      ..isPrimary = objectData[keyIsPrimary]
+      ..isOffer = objectData[keyIsOffer]
+      ..category = objectData[keyCategory];
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:store_compare/views/home/home_controller.dart';
 import 'package:store_compare/views/home/home_states.dart';
+import 'package:store_compare/views/home/widgets/no_product.dart';
 import 'package:store_compare/views/home/widgets/product_detail.dart';
 import 'package:store_compare/views/home/widgets/product_list.dart';
 
@@ -42,9 +43,13 @@ class HomeView extends GetView<HomeController> {
       ),
       backgroundColor: context.theme.scaffoldBackgroundColor,
       body: controller.obx(
-          (state) => controller.products.length > 1
-              ? ProductList(products: controller.products)
-              : ProductDetail(product: controller.products.first,),
+          (state) => controller.products.isEmpty
+              ? const NoProduct()
+              : controller.products.length > 1
+                  ? ProductList(products: controller.products)
+                  : ProductDetail(
+                      product: controller.products.first,
+                    ),
           onLoading: Column(
             children: [
               LinearProgressIndicator(
@@ -60,6 +65,15 @@ class HomeView extends GetView<HomeController> {
                 ),
               ))
             ],
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: controller.obx((state) => Visibility(
+            visible: controller.products.length < 2,
+            child: FloatingActionButton(
+              onPressed: controller.showDialog,
+              tooltip: 'Add new product',
+              child: const Icon(Icons.add_shopping_cart),
+            ),
           )),
     );
   }

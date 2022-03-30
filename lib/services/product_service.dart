@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/models/product.dart';
@@ -37,10 +38,24 @@ class ProductService extends GetxService implements ProductServiceContract {
     // an array of `Product`, if success
     final apiResponse = await parseQuery.query<Product>();
 
-    if (apiResponse.success && apiResponse.results != null) {
-      return apiResponse.results! as List<Product>;
+    if (apiResponse.success) {
+      return (apiResponse.results ?? <Product>[]) as List<Product>;
     } else {
       return Future.error(apiResponse.error!.message);
     }
+  }
+
+  @override
+  Future<List<Product>> saveBulk(List<Product> productsToSave) async {
+     final listToReturn = List<Product>.empty(growable: true);
+     for(final product in productsToSave){
+        final response = await product.save();
+        if(response.success){
+          listToReturn.add(response.result);
+        } else {
+          throw Exception(response.error?.message);
+        }
+     }
+     return listToReturn;
   }
 }

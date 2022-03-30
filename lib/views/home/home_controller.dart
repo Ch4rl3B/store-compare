@@ -1,14 +1,24 @@
+import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/home/home_states.dart';
+import 'package:store_compare/views/home/widgets/loading_dialog.dart';
+import 'package:store_compare/views/product_form/add_product_dialog.dart';
+import 'package:store_compare/views/product_form/add_product_dialog_controller.dart';
+import 'package:store_compare/views/product_form/add_product_interface.dart';
 
-class HomeController extends GetxController with StateMixin<HomeStates> {
+class HomeController extends GetxController
+    with StateMixin<HomeStates>
+    implements AddProductInterface {
   final ProductServiceContract productService =
       Get.find<ProductServiceContract>();
   late List<Product> products;
   late List<Product> filtered;
+  Timer? timer;
 
   @override
   void onInit() {
@@ -30,10 +40,21 @@ class HomeController extends GetxController with StateMixin<HomeStates> {
     }
   }
 
-  Future<void> filter(String value) async {
-    filtered = await productService.filter(value);
-    products = filtered.toSet().toList();
-    refresh();
+  void filter(String value) {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    timer = setTimer(value);
+  }
+
+  Timer setTimer(String value) {
+    return Timer(500.milliseconds, () async {
+      debugPrint('text to search: $value');
+      filtered = await productService.filter(value);
+      products = filtered.toSet().toList();
+      refresh();
+      timer = null;
+    });
   }
 
   String get getMax {
@@ -74,9 +95,73 @@ class HomeController extends GetxController with StateMixin<HomeStates> {
     return products.first.price.toString();
   }
 
+  String get getTotalValue {
+    return filtered
+        .where((element) => element == products.first)
+        .map((e) => e.price)
+        .reduce((a, b) => a + b)
+        .toStringAsFixed(2);
+  }
+
   int get offers {
     return filtered
         .where((element) => element == products.first && element.isOffer)
         .length;
+  }
+
+  void showDialog() {
+    Get.put(AddProductDialogController(this,
+        bindedProduct: products.length == 1 ? products.first : null));
+    Get.dialog(const AddProductDialog(),
+            barrierDismissible: false, useSafeArea: true)
+        .then((_) {
+      Get.delete<AddProductDialogController>();
+    });
+  }
+
+  @override
+  Future<void> addProduct(Map<String, dynamic> formData) async {
+    debugPrint(formData.toString());
+    final amount = formData.remove(keyAmount);
+    final productsToSave = List.generate(
+        amount, (index) => Product.fromMap(formData));
+    unawaited(Get.dialog(const LoadingDialog(), barrierDismissible: true));
+    try {
+      _populateLists(await productService.saveBulk(productsToSave));
+      Get
+        ..back()
+        ..snackbar('Salva completa', 'Los productos han sido salvados',
+            duration: 2.seconds,
+            backgroundColor: Get.theme.primaryColorLight,
+            snackPosition: SnackPosition.BOTTOM,
+            isDismissible: true,
+            margin: const EdgeInsets.only(bottom: 12));
+    } catch (ex){
+      Get
+        ..back()
+        ..snackbar('Error guardando', ex.toString(),
+            colorText: Colors.white,
+            duration: 3.seconds,
+            backgroundColor: Get.theme.errorColor,
+            snackPosition: SnackPosition.BOTTOM,
+            isDismissible: true,
+            margin: const EdgeInsets.only(bottom: 12));
+    }
+  }
+
+  @override
+  Future<void> editProduct(Map<String, dynamic> formData) {
+    throw UnimplementedError();
+  }
+
+  void _populateLists(List<Product> newProducts) {
+    if(products.length > 1) {
+      products.addAll(newProducts);
+    }
+    if(products.isEmpty){
+      products.add(newProducts.last);
+    }
+    filtered.addAll(newProducts);
+    refresh();
   }
 }

@@ -71,9 +71,10 @@ void main() {
         reason: 'When clicked the button a text field appears');
     await tester.enterText(find.byKey(const ValueKey('#searchField')),
         mockProducts.first.productName);
-    await tester.pump(5.seconds);
+    await tester.pump(500.milliseconds); //Time to fire the search
     expect(Get.find<HomeController>().products.length, 1,
         reason: 'The search returned only one item');
+    await tester.pumpAndSettle();
     expect(find.byType(ProductDetail), findsOneWidget);
     expect(find.byType(ProductList), findsOneWidget,
         reason: 'ProductDetail has a list');

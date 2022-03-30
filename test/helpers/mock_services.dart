@@ -17,6 +17,11 @@ class MockProductService extends Mock implements ProductServiceContract {
   Future<List<Product>> filter(String? filter) async =>
       super.noSuchMethod(Invocation.method(#filter, [filter]),
           returnValue: Future.value(generateProducts()));
+
+  @override
+  Future<List<Product>> saveBulk(List<Product> productsToSave) =>
+      super.noSuchMethod(Invocation.method(#saveBulk, [productsToSave]),
+          returnValue: Future.value(generateProducts()));
 }
 
 Future<void> setupParseInstance() async {
