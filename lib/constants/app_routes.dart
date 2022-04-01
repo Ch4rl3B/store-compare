@@ -10,7 +10,9 @@ class AppRoutes {
       return const SplashView();
     },
     Paths.home: (context) {
-      Get.put(HomeController());
+      Get
+        ..put(HomeController())
+        ..put(ShopListController());
       return const HomeView();
     },
   };

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:store_compare/constants/keys.dart';
+import 'package:store_compare/helpers/extensions.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/home/home_states.dart';
 import 'package:store_compare/views/home/widgets/loading_dialog.dart';
@@ -18,7 +19,13 @@ class HomeController extends GetxController
       Get.find<ProductServiceContract>();
   late List<Product> products;
   late List<Product> filtered;
+  final searchController = TextEditingController();
   Timer? timer;
+
+  HomeStates? previousState;
+
+
+
 
   @override
   void onInit() {
@@ -29,11 +36,12 @@ class HomeController extends GetxController
 
   Future<void> loadData() async {
     products = await productService.fetchAll();
-    change(HomeStates.settled, status: RxStatus.success());
+    searchController.clear();
+    change(HomeStates.list, status: RxStatus.success());
   }
 
   void search() {
-    if (state! == HomeStates.search) {
+    if ([HomeStates.details, HomeStates.search].contains(state)) {
       loadData();
     } else {
       change(HomeStates.search, status: RxStatus.success());
@@ -52,7 +60,13 @@ class HomeController extends GetxController
       debugPrint('text to search: $value');
       filtered = await productService.filter(value);
       products = filtered.toSet().toList();
-      refresh();
+      if(products.isEmpty){
+        change(HomeStates.empty, status: RxStatus.success());
+      } else if(products.length == 1){
+        change(HomeStates.details, status: RxStatus.success());
+      } else {
+        change(HomeStates.search, status: RxStatus.success());
+      }
       timer = null;
     });
   }
@@ -137,15 +151,8 @@ class HomeController extends GetxController
             isDismissible: true,
             margin: const EdgeInsets.only(bottom: 12));
     } catch (ex){
-      Get
-        ..back()
-        ..snackbar('Error guardando', ex.toString(),
-            colorText: Colors.white,
-            duration: 3.seconds,
-            backgroundColor: Get.theme.errorColor,
-            snackPosition: SnackPosition.BOTTOM,
-            isDismissible: true,
-            margin: const EdgeInsets.only(bottom: 12));
+      Get.back();
+      Get.context?.saveError(ex.toString());
     }
   }
 
@@ -163,5 +170,24 @@ class HomeController extends GetxController
     }
     filtered.addAll(newProducts);
     refresh();
+  }
+
+  void changeIndex(int index) {
+    switch(index){
+      case 1  :
+        previousState = state;
+        change(HomeStates.shopList, status: RxStatus.success());
+        break;
+      default:
+        change(previousState ?? HomeStates.list, status: RxStatus.success());
+    }
+  }
+
+  int get currentIndex => state! == HomeStates.shopList ? 1 : 0;
+
+
+  void onItemTap(Product p1) {
+    searchController.text = p1.productName;
+    filter(searchController.text);
   }
 }

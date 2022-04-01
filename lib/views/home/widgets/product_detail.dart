@@ -13,7 +13,7 @@ class ProductDetail extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           ListTile(
@@ -54,34 +54,37 @@ class ProductDetail extends GetView<HomeController> {
           Row(
             children: [
               Expanded(
+                flex: 2,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       primary: context.theme.colorScheme.secondary),
-                  child: Text('high: ${controller.getMax}'),
+                  child: Text('alto: ${controller.getMax}'),
                 ),
               ),
               const SizedBox(
                 width: 8,
               ),
               Expanded(
+                flex: 3,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       primary: context.theme.primaryColorDark),
-                  child: Text('mid: ${controller.getMedia}'),
+                  child: Text('regular: ${controller.getMedia}'),
                 ),
               ),
               const SizedBox(
                 width: 8,
               ),
               Expanded(
+                flex: 2,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     primary: context.theme.primaryColorLight,
                   ),
-                  child: Text('low: ${controller.getMin}'),
+                  child: Text('bajo: ${controller.getMin}'),
                 ),
               )
             ],
@@ -89,9 +92,12 @@ class ProductDetail extends GetView<HomeController> {
           Divider(color: context.theme.colorScheme.onBackground),
           Expanded(
             child: ProductList(
+              onRefresh: () async =>
+                  controller.filter(controller.searchController.text),
               products: controller.filtered
                   .where((element) => element == product)
-                  .toList(),
+                  .toList()
+                  ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
             ),
           ),
           Divider(color: context.theme.colorScheme.onBackground),

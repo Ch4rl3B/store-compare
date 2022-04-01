@@ -1,4 +1,4 @@
 
 enum HomeStates {
-   loading, settled, search
+   loading, list, search, details, empty, shopList
 }

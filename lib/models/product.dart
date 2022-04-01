@@ -1,5 +1,5 @@
-import 'package:store_compare/constants/keys.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:store_compare/constants/keys.dart';
 
 class Product extends ParseObject implements ParseCloneable {
 

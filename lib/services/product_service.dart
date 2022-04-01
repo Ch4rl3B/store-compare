@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/models/product.dart';
-import 'package:store_compare/services/product_service_contract.dart';
+import 'package:store_compare/services/contracts.dart';
 
 export 'package:store_compare/models/product.dart';
-export 'package:store_compare/services/product_service_contract.dart';
+export 'package:store_compare/services/contracts.dart';
 
 class ProductService extends GetxService implements ProductServiceContract {
   @override

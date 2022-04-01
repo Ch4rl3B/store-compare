@@ -3,6 +3,7 @@ const keyClientKey = 'PBlxGtwOGe24VEisoySlyj3MgjLHV8uAQDZIOvQd';
 const keyParseServerUrl = 'https://parseapi.back4app.com';
 const keyApplicationName = 'StoreCompare';
 
+//Product
 const keyAmount = 'amount';
 const keyName = 'productName';
 const keyTag = 'tag';
@@ -11,3 +12,8 @@ const keyCategory = 'category';
 const keyRealPrice = 'realPrice';
 const keyIsPrimary = 'isPrimary';
 const keyIsOffer = 'isOffer';
+
+//ShopItem
+const keyItemName = 'name';
+const keyItemAmount = 'amount';
+const keyItemCompleted = 'completed';

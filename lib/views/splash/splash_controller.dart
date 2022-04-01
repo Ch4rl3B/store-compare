@@ -3,6 +3,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/constants/paths.dart';
 import 'package:store_compare/services/product_service.dart';
+import 'package:store_compare/services/shop_item_service.dart';
 import 'package:store_compare/views/splash/splash_states.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -24,11 +25,15 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
         appName: keyApplicationName,
         registeredSubClassMap: <String, ParseObjectConstructor>{
           'Products': Product.new,
+          'ShopItems': ShopItem.new
         },
         // ignore: invalid_return_type_for_catch_error
       ).catchError(onError),
     ]);
-    Get.put<ProductServiceContract>(ProductService());
+    Get
+      ..put<ProductServiceContract>(ProductService())
+      ..put<ShopItemContract>(ShopItemService());
+
     await fetchData();
   }
 
