@@ -35,7 +35,8 @@ class HomeController extends GetxController
   }
 
   Future<void> loadData() async {
-    products = await productService.fetchAll();
+    filtered = await productService.fetchAll();
+    products = filtered;
     searchController.clear();
     change(HomeStates.list, status: RxStatus.success());
   }
@@ -72,19 +73,29 @@ class HomeController extends GetxController
   }
 
   String get getMax {
-    return filtered
-        .where((element) => element == products.first)
-        .map((e) => e.price)
-        .reduce(max)
-        .toString();
+    final list = filtered
+        .where((element) => element == products.first && !element.isOffer)
+        .map((e) => e.price);
+
+    if(list.isNotEmpty) {
+      return list.reduce(max)
+          .toString();
+    }
+
+    return '--';
   }
 
   String get getMin {
-    return filtered
+    final list = filtered
         .where((element) => element == products.first && !element.isOffer)
-        .map((e) => e.price)
-        .reduce(min)
-        .toString();
+        .map((e) => e.price);
+
+    if(list.isNotEmpty) {
+      return list.reduce(min)
+          .toString();
+    }
+
+    return '--';
   }
 
   String get getMedia {
@@ -109,12 +120,15 @@ class HomeController extends GetxController
     return products.first.price.toString();
   }
 
-  String get getTotalValue {
-    return filtered
-        .where((element) => element == products.first)
-        .map((e) => e.price)
-        .reduce((a, b) => a + b)
-        .toStringAsFixed(2);
+  String getTotalValue(List<Product> products) {
+    final list = products
+        .map((e) => e.price);
+    if(list.isNotEmpty){
+      return list
+          .reduce((a, b) => a + b)
+          .toStringAsFixed(2);
+    }
+    return '0.00';
   }
 
   int get offers {
@@ -167,6 +181,7 @@ class HomeController extends GetxController
     }
     if(products.isEmpty){
       products.add(newProducts.last);
+      change(HomeStates.details, status: RxStatus.success());
     }
     filtered.addAll(newProducts);
     refresh();
@@ -188,6 +203,6 @@ class HomeController extends GetxController
 
   void onItemTap(Product p1) {
     searchController.text = p1.productName;
-    filter(searchController.text);
+    filter(p1.searchCode.toString());
   }
 }

@@ -59,7 +59,7 @@ class ProductDetail extends GetView<HomeController> {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       primary: context.theme.colorScheme.secondary),
-                  child: Text('alto: ${controller.getMax}'),
+                  child: Text('▲: ${controller.getMax}'),
                 ),
               ),
               const SizedBox(
@@ -84,7 +84,7 @@ class ProductDetail extends GetView<HomeController> {
                   style: ElevatedButton.styleFrom(
                     primary: context.theme.primaryColorLight,
                   ),
-                  child: Text('bajo: ${controller.getMin}'),
+                  child: Text('▼: ${controller.getMin}'),
                 ),
               )
             ],
@@ -100,17 +100,6 @@ class ProductDetail extends GetView<HomeController> {
                   ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
             ),
           ),
-          Divider(color: context.theme.colorScheme.onBackground),
-          Row(
-            children: [
-              Expanded(child: Container()),
-              Text('Total: €${controller.getTotalValue}', style: TextStyle(
-                  fontSize: 14,
-                  color: context.theme.colorScheme.primary),
-                textAlign: TextAlign.end,),
-              const SizedBox(width: 24,)
-            ],
-          )
         ],
       ),
     );

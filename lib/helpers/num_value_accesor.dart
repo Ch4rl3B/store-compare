@@ -14,6 +14,6 @@ class NumValueAccessor extends ControlValueAccessor<num, String> {
   num? viewToModelValue(String? viewValue) {
     return (viewValue == '' || viewValue == null)
         ? null
-        : num.tryParse(viewValue);
+        : num.tryParse(viewValue.replaceAll(',', '.'));
   }
 }

@@ -37,7 +37,6 @@ class AddItemForm extends StatelessWidget {
                       width: 8,
                     ),
                     Expanded(
-                        flex: 1,
                         child: ReactiveTextField<int>(
                           formControlName: keyItemAmount,
                           validationMessages: (control) =>
@@ -63,7 +62,7 @@ class AddItemForm extends StatelessWidget {
                         }
                             : null,
                         icon: const Icon(Icons.add_shopping_cart),
-                        label: const Text("Adicionar"))
+                        label: const Text('Adicionar'))
                 )),
             const SizedBox(
               height: 4,

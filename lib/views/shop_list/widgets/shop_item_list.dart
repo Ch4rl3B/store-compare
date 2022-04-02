@@ -30,7 +30,7 @@ class ShopItemList extends StatelessWidget {
                 direction: DismissDirection.endToStart,
                 confirmDismiss: (direction) async {
                   if (direction == DismissDirection.endToStart) {
-                    return await Get.defaultDialog<bool>(
+                    return Get.defaultDialog<bool>(
                         title: 'Eliminar item',
                         middleText: 'Esta acción no se puede deshacer',
                         textConfirm: 'Eliminar',

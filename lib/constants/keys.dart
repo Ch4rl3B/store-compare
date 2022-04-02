@@ -12,6 +12,7 @@ const keyCategory = 'category';
 const keyRealPrice = 'realPrice';
 const keyIsPrimary = 'isPrimary';
 const keyIsOffer = 'isOffer';
+const keySearchCode = 'searchCode';
 
 //ShopItem
 const keyItemName = 'name';

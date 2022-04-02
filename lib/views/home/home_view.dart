@@ -18,8 +18,11 @@ class HomeView extends GetView<HomeController> {
         (state) => Scaffold(
             appBar: AppBar(
               title: Visibility(
-                visible:
-                    [HomeStates.details, HomeStates.search, HomeStates.empty].contains(state),
+                visible: [
+                  HomeStates.details,
+                  HomeStates.search,
+                  HomeStates.empty
+                ].contains(state),
                 child: TextField(
                   key: const ValueKey('#searchField'),
                   decoration: const InputDecoration(
@@ -91,7 +94,8 @@ class HomeView extends GetView<HomeController> {
       case HomeStates.list:
         return ProductList(
             onItemTap: controller.onItemTap,
-            onRefresh: controller.loadData, products: controller.products);
+            onRefresh: controller.loadData,
+            products: controller.products);
       case HomeStates.search:
         return ProductList(
             onRefresh: () async =>

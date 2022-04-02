@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/models/product.dart';
 import 'package:store_compare/services/contracts.dart';
 
@@ -25,12 +26,15 @@ class ProductService extends GetxService implements ProductServiceContract {
 
   @override
   Future<List<Product>> filter(String filter) async {
+
     // Create your query
     final parseQuery = QueryBuilder<Product>.or(Product(), [
       QueryBuilder<Product>(Product())
-        ..whereContains('productName', filter),
-      QueryBuilder<Product>(Product())..whereContains('tag', filter),
-      QueryBuilder<Product>(Product())..whereContains('category', filter),
+        ..whereEqualTo(keySearchCode, int.tryParse(filter) ?? filter.hashCode),
+      QueryBuilder<Product>(Product())
+        ..whereContains(keyName, filter),
+      QueryBuilder<Product>(Product())..whereContains(keyTag, filter),
+      QueryBuilder<Product>(Product())..whereContains(keyCategory, filter),
     ])
       ..orderByDescending('createdAt');
     // The query will resolve only after calling this method, retrieving
