@@ -1,5 +1,9 @@
 # store_compare
 
+![flutter tests](https://github.com/Ch4rl3B/store-compare/workflows/fizzbuzz/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/Ch4rl3B/store-compare/branch/master/graph/badge.svg?token=JAA7E6FR9N)](https://codecov.io/gh/Ch4rl3B/store-compare)
+
+
 A new Flutter project.
 
 ## Getting Started
