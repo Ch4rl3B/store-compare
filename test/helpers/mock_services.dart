@@ -6,7 +6,6 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:uuid/uuid.dart';
-export 'package:store_compare/services/contracts.dart';
 
 class MockProductService extends Mock implements ProductServiceContract {
   @override
@@ -24,11 +23,6 @@ class MockProductService extends Mock implements ProductServiceContract {
       super.noSuchMethod(Invocation.method(#saveBulk, [productsToSave]),
           returnValue: Future.value(generateProducts()));
 }
-
-class MockShopItemService extends Mock implements ShopItemContract {
-
-}
-
 
 Future<void> setupParseInstance() async {
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
