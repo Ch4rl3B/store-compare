@@ -1,6 +1,6 @@
 # store_compare
 
-![flutter tests](https://github.com/Ch4rl3B/store-compare/workflows/store-compare/badge.svg?branch=master)
+![flutter tests](https://github.com/Ch4rl3B/store-compare/workflows/store_compare/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/Ch4rl3B/store-compare/branch/master/graph/badge.svg?token=JAA7E6FR9N)](https://codecov.io/gh/Ch4rl3B/store-compare)
 
 
