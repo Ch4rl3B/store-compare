@@ -11,6 +11,7 @@ import 'package:store_compare/views/home/widgets/loading_dialog.dart';
 import 'package:store_compare/views/product_form/add_product_dialog.dart';
 import 'package:store_compare/views/product_form/add_product_dialog_controller.dart';
 import 'package:store_compare/views/product_form/add_product_interface.dart';
+import 'package:store_compare/views/shop_list/shop_list.dart';
 
 class HomeController extends GetxController
     with StateMixin<HomeStates>
@@ -122,7 +123,7 @@ class HomeController extends GetxController
 
   String getTotalValue(List<Product> products) {
     final list = products
-        .map((e) => e.price);
+        .map((e) => e.realPrice);
     if(list.isNotEmpty){
       return list
           .reduce((a, b) => a + b)
@@ -204,5 +205,9 @@ class HomeController extends GetxController
   void onItemTap(Product p1) {
     searchController.text = p1.productName;
     filter(p1.searchCode.toString());
+  }
+
+  void cleanShopList() {
+   Get.find<ShopListController>().dropItems();
   }
 }

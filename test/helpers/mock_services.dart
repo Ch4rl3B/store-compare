@@ -31,7 +31,8 @@ Future<void> setupParseInstance() async {
 
 Product getDummyProduct({bool isPrimary = false, bool isOffer = false}) {
   final faker = Faker();
-  final date = DateTime.now();
+  final date =
+      DateTime.now().subtract(Duration(days: faker.randomGenerator.integer(6)));
   final name = faker.food.dish();
   final price = faker.randomGenerator.decimal(min: 1);
   return Product()

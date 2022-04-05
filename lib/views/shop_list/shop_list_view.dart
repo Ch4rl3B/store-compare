@@ -16,6 +16,7 @@ class ShopListView extends GetView<ShopListController> {
         Expanded(
           flex: 3,
           child: Obx(() => ShopItemList(
+                // ignore: invalid_use_of_protected_member
                 list: controller.itemList.value,
                 onItemSelected: controller.toggle,
                 onRefresh: controller.fetchItems,

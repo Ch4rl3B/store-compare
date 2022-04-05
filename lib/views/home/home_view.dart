@@ -51,6 +51,13 @@ class HomeView extends GetView<HomeController> {
                           ? const Icon(Icons.search)
                           : const Icon(Icons.cancel)),
                 ),
+                Visibility(
+                  visible: state == HomeStates.shopList,
+                  child: IconButton(
+                      key: const ValueKey('#clean'),
+                      onPressed: controller.cleanShopList,
+                      icon: const Icon(Icons.cleaning_services_outlined)),
+                ),
               ],
             ),
             backgroundColor: context.theme.scaffoldBackgroundColor,

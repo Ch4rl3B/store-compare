@@ -45,4 +45,10 @@ class ShopListController extends GetxController {
       });
     });
   }
+
+  void dropItems() {
+    while(itemList.isNotEmpty){
+      shopItemService.delete(itemList.removeAt(0));
+    }
+  }
 }

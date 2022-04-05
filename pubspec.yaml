@@ -46,6 +46,7 @@ dependencies:
   flutter_textfield_autocomplete: ^1.0.2
   flex_color_scheme: ^4.2.0
   salomon_bottom_bar: ^3.3.0
+  dart_date: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -63,3 +64,11 @@ flutter:
   generate: true
   uses-material-design: true
 
+  assets:
+    - lib/shop.png
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/shop.png"
+  remove_alpha_ios: true
