@@ -49,3 +49,4 @@ app.*.map.json
 # CI related
 codecov
 /coverage/
+/lib/helpers/get_code.dart
