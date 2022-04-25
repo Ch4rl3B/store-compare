@@ -105,6 +105,7 @@ class HomeView extends GetView<HomeController> {
             products: controller.products);
       case HomeStates.search:
         return ProductList(
+            onItemTap: controller.onItemTap,
             onRefresh: () async =>
                 controller.filter(controller.searchController.text),
             products: controller.products);

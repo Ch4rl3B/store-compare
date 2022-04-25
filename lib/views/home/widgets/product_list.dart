@@ -25,7 +25,7 @@ class ProductList extends GetView<HomeController> {
           child: RefreshIndicator(
             onRefresh: onRefresh,
             child: ListView(
-              itemExtent: 70,
+              itemExtent: 75,
               children: products
                   .fold<Map<DateTime, List<Product>>>({}, (map, product) {
                     if (!map.containsKey(product.createdAt!.endOfDay)) {
@@ -39,7 +39,7 @@ class ProductList extends GetView<HomeController> {
                     list
                       ..add(addDateAmount(context, entry.key,
                         controller.getTotalValue(entry.value)))
-                      ..addAll(entry.value.map((e) => addProduct(context, e)));
+                      ..addAll(entry.value.map((e) => productItem(context, e)));
                     return list;
                   }),
             ),
@@ -70,11 +70,11 @@ class ProductList extends GetView<HomeController> {
     );
   }
 
-  Widget addProduct(BuildContext context, Product product) => ListTile(
+  Widget productItem(BuildContext context, Product product) => ListTile(
         key: ValueKey(product.objectId),
         onTap: () => onItemTap?.call(product),
         leading: SizedBox(
-          width: 70,
+          width: 40,
           child: Center(
               child: Icon(categories[product.category],
                   size: 35,
@@ -86,20 +86,20 @@ class ProductList extends GetView<HomeController> {
           TextSpan(
               text: product.productName,
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   color: product.isPrimary
                       ? context.theme.toggleableActiveColor
                       : null),
               children: [
                 if (product.isOffer)
                   const TextSpan(
-                      text: ' ☻ ',
+                      text: ' ● ',
                       style: TextStyle(fontSize: 16, color: Colors.amber))
               ]),
         ),
-        subtitle: Text(product.tag, style: const TextStyle(fontSize: 15)),
+        subtitle: Text(product.tag, style: const TextStyle(fontSize: 14)),
         trailing: SizedBox(
-          width: 70,
+          width: 60,
           child: Center(
             child: Text(
               '€ ${product.realPrice.toStringAsFixed(2)}',
