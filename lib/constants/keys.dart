@@ -13,6 +13,7 @@ const keyRealPrice = 'realPrice';
 const keyIsPrimary = 'isPrimary';
 const keyIsOffer = 'isOffer';
 const keySearchCode = 'searchCode';
+const keyShop = 'shop';
 
 //ShopItem
 const keyItemName = 'name';

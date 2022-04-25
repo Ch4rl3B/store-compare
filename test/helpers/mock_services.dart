@@ -45,6 +45,8 @@ Product getDummyProduct({bool isPrimary = false, bool isOffer = false}) {
     ..realPrice = price
     ..isPrimary = isPrimary
     ..isOffer = isOffer
+    ..shop = 'Test'
+    ..searchCode = name.hashCode
     ..category = 'alimentos';
 }
 

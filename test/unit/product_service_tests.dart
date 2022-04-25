@@ -47,4 +47,10 @@ void main(){
     expect(products.isNotEmpty, true);
     expect(products.last.price, 0.99);
   });
+
+  test('The new field shop comes in the object', () async {
+    final products = await service!.filter('alimento');
+    expect(products.isNotEmpty, true);
+    expect(products.last.shop, 'Penny Kieler St.');
+  });
 }

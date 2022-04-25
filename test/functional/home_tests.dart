@@ -81,6 +81,37 @@ void main() {
     expect(find.byType(ListTile), findsWidgets,
         reason: 'ProductDetail has a list of occurrences');
     expect(find.byKey(ValueKey(mockProducts.first.objectId)), findsOneWidget,
-    reason: 'There is a product with the given objectId');
+        reason: 'There is a product with the given objectId');
+  });
+
+  testWidgets('Home view when click on a product goes to details',
+      (WidgetTester tester) async {
+    Get.put(HomeController());
+
+    await tester.pumpWidget(const TestApp(child: HomeView()));
+    expect(find.byType(HomeView), findsOneWidget);
+    await tester.pump(2.seconds);
+    expect(find.byType(ProductList), findsOneWidget);
+    expect(find.byType(ListTile), findsWidgets);
+    expect(find.byKey(ValueKey(mockProducts.first.objectId)), findsOneWidget);
+    await tester.tap(find.byKey(ValueKey(mockProducts.first.objectId)));
+    await tester.pumpAndSettle(1.seconds);
+    expect(find.byType(AppBar), findsOneWidget);
+    expect(find.byIcon(Icons.cancel), findsOneWidget,
+        reason: 'AppBar has a cancel icon at right of the search field');
+    expect(find.byKey(const ValueKey('#searchField')), findsOneWidget,
+        reason:
+            'AppBar has a text field as the click action triggers a search');
+    final searchField = find.byKey(const ValueKey('#searchField'));
+    expect((searchField.evaluate().first.widget as TextField).controller?.text,
+        mockProducts.first.productName,
+        reason: 'Search Field has the name of the clicked product');
+    expect(find.byType(ProductDetail), findsOneWidget);
+    expect(find.byType(ProductList), findsOneWidget,
+        reason: 'ProductDetail has a list');
+    expect(find.byType(ListTile), findsWidgets,
+        reason: 'ProductDetail has a list of occurrences');
+    expect(find.byKey(ValueKey(mockProducts.first.objectId)), findsOneWidget,
+        reason: 'There is a product with the given objectId');
   });
 }

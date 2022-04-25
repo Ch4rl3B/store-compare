@@ -43,6 +43,10 @@ class Product extends ParseObject implements ParseCloneable {
   set searchCode(int? searchCode) =>
       set<int>(keySearchCode, searchCode ?? hashCode);
 
+  String get shop => get<String>(keyShop)!;
+  set shop(String shop) =>
+      set<String>(keyShop, shop);
+
   @override
   bool operator ==(Object other) {
     return (other is Product) && productName == other.productName;
@@ -61,6 +65,7 @@ class Product extends ParseObject implements ParseCloneable {
       ..isOffer = objectData[keyIsOffer]
       ..category = objectData[keyCategory]
       ..searchCode = objectData[keyName].hashCode
+      ..shop= objectData[keyShop]
     ;
   }
 }
