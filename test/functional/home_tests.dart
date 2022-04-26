@@ -28,7 +28,6 @@ void main() {
   Future<ProductServiceContract> getService() async {
     final mockService = MockProductService();
     mockProducts = generateProducts();
-
     when(mockService.fetchAll())
         .thenAnswer((_) async => Future<List<Product>>.value(mockProducts));
     when(mockService.filter(any)).thenAnswer(
@@ -54,7 +53,6 @@ void main() {
     expect(find.byType(AppBar), findsOneWidget);
     expect(find.byKey(const ValueKey('#search')), findsOneWidget);
     expect(find.byType(ProductList), findsOneWidget);
-    expect(find.byType(ListTile), findsWidgets);
     expect(find.byKey(ValueKey(mockProducts.first.objectId)), findsOneWidget);
   });
 
@@ -92,7 +90,6 @@ void main() {
     expect(find.byType(HomeView), findsOneWidget);
     await tester.pump(2.seconds);
     expect(find.byType(ProductList), findsOneWidget);
-    expect(find.byType(ListTile), findsWidgets);
     expect(find.byKey(ValueKey(mockProducts.first.objectId)), findsOneWidget);
     await tester.tap(find.byKey(ValueKey(mockProducts.first.objectId)));
     await tester.pumpAndSettle(1.seconds);

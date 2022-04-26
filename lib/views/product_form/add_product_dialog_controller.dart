@@ -33,6 +33,7 @@ class AddProductDialogController extends GetxController {
     ]),
     keyIsPrimary: FormControl<bool>(value: false),
     keyIsOffer: FormControl<bool>(value: false),
+    keyShop: FormControl<String>(value: 'Test'),
   });
 
   @override
@@ -83,7 +84,8 @@ class AddProductDialogController extends GetxController {
       keyPrice: bindedProduct?.price,
       keyRealPrice: bindedProduct?.realPrice,
       keyIsOffer: bindedProduct?.isOffer,
-      keyIsPrimary: bindedProduct?.isPrimary
+      keyIsPrimary: bindedProduct?.isPrimary,
+      keyShop: bindedProduct?.shop
     });
   }
 

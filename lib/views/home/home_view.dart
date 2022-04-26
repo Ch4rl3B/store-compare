@@ -34,6 +34,8 @@ class HomeView extends GetView<HomeController> {
                     ),
                     border: InputBorder.none,
                   ),
+                  autofocus: true,
+                  focusNode: controller.focusNode,
                   controller: controller.searchController,
                   onChanged: controller.filter,
                   style: const TextStyle(
@@ -100,12 +102,14 @@ class HomeView extends GetView<HomeController> {
         return const LoadingPage();
       case HomeStates.list:
         return ProductList(
+            onItemDismiss: controller.onItemDismiss,
             onItemTap: controller.onItemTap,
             onRefresh: controller.loadData,
             products: controller.products);
       case HomeStates.search:
         return ProductList(
             onItemTap: controller.onItemTap,
+            onItemDismiss: controller.onItemDismiss,
             onRefresh: () async =>
                 controller.filter(controller.searchController.text),
             products: controller.products);

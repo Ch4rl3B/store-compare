@@ -18,7 +18,7 @@ class ProductDetail extends GetView<HomeController> {
         children: [
           ListTile(
             leading: SizedBox(
-              width: 70,
+              width: 30,
               child: Center(
                   child: Icon(categories[product.category],
                       size: 35,
@@ -34,11 +34,12 @@ class ProductDetail extends GetView<HomeController> {
                         : null)),
             subtitle: Text(product.tag, style: const TextStyle(fontSize: 15)),
             trailing: SizedBox(
-              width: 70,
+              width: 30,
               child: Container(
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.amber),
-                height: 25,
+                height: 30,
+                width: 30,
                 child: Center(
                   child: Text(
                     controller.offers.toString(),
@@ -97,7 +98,7 @@ class ProductDetail extends GetView<HomeController> {
               products: controller.filtered
                   .where((element) => element == product)
                   .toList()
-                  ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
+                ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
             ),
           ),
         ],

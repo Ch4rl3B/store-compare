@@ -18,15 +18,13 @@ class HomeController extends GetxController
     implements AddProductInterface {
   final ProductServiceContract productService =
       Get.find<ProductServiceContract>();
-  late List<Product> products;
-  late List<Product> filtered;
+  List<Product> products = [];
+  List<Product> filtered = [];
   final searchController = TextEditingController();
   Timer? timer;
+  final FocusNode focusNode = FocusNode(debugLabel: 'searchTextField');
 
   HomeStates? previousState;
-
-
-
 
   @override
   void onInit() {
@@ -36,8 +34,10 @@ class HomeController extends GetxController
   }
 
   Future<void> loadData() async {
+    products.clear();
+    filtered.clear();
     filtered = await productService.fetchAll();
-    products = filtered;
+    products = List.from(filtered);
     searchController.clear();
     change(HomeStates.list, status: RxStatus.success());
   }
@@ -45,8 +45,10 @@ class HomeController extends GetxController
   void search() {
     if ([HomeStates.details, HomeStates.search].contains(state)) {
       loadData();
+      focusNode.unfocus();
     } else {
       change(HomeStates.search, status: RxStatus.success());
+      focusNode.requestFocus();
     }
   }
 
@@ -97,6 +99,17 @@ class HomeController extends GetxController
     }
 
     return '--';
+  }
+
+  String get getBestShop {
+    final list = filtered
+        .where((element) => element == products.first && !element.isOffer);
+
+    if(list.isNotEmpty) {
+      return list.reduce((a, b) => a.price <= b.price ? a : b).shop;
+    }
+
+    return 'unknown';
   }
 
   String get getMedia {
@@ -178,13 +191,13 @@ class HomeController extends GetxController
 
   void _populateLists(List<Product> newProducts) {
     if(products.length > 1) {
-      products.addAll(newProducts);
+      products.insertAll(0, newProducts);
     }
     if(products.isEmpty){
-      products.add(newProducts.last);
+      products.insert(0, newProducts.last);
       change(HomeStates.details, status: RxStatus.success());
     }
-    filtered.addAll(newProducts);
+    filtered.insertAll(0, newProducts);
     refresh();
   }
 
@@ -209,5 +222,14 @@ class HomeController extends GetxController
 
   void cleanShopList() {
    Get.find<ShopListController>().dropItems();
+  }
+
+  void onItemDismiss(Product p1) {
+    Get.put(AddProductDialogController(this, bindedProduct: p1));
+    Get.dialog(const AddProductDialog(),
+        barrierDismissible: false, useSafeArea: true)
+        .then((_) {
+      Get.delete<AddProductDialogController>();
+    });
   }
 }

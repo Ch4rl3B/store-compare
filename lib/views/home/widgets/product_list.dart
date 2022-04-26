@@ -9,12 +9,14 @@ class ProductList extends GetView<HomeController> {
   final List<Product> products;
   final Future<void> Function() onRefresh;
   final Function(Product)? onItemTap;
+  final Function(Product)? onItemDismiss;
 
   const ProductList(
       {Key? key,
       required this.products,
       required this.onRefresh,
-      this.onItemTap})
+      this.onItemTap,
+      this.onItemDismiss})
       : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class ProductList extends GetView<HomeController> {
           child: RefreshIndicator(
             onRefresh: onRefresh,
             child: ListView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemExtent: 75,
               children: products
                   .fold<Map<DateTime, List<Product>>>({}, (map, product) {
@@ -38,7 +41,7 @@ class ProductList extends GetView<HomeController> {
                   .fold<List<Widget>>([], (list, entry) {
                     list
                       ..add(addDateAmount(context, entry.key,
-                        controller.getTotalValue(entry.value)))
+                          controller.getTotalValue(entry.value)))
                       ..addAll(entry.value.map((e) => productItem(context, e)));
                     return list;
                   }),
@@ -70,46 +73,6 @@ class ProductList extends GetView<HomeController> {
     );
   }
 
-  Widget productItem(BuildContext context, Product product) => ListTile(
-        key: ValueKey(product.objectId),
-        onTap: () => onItemTap?.call(product),
-        leading: SizedBox(
-          width: 40,
-          child: Center(
-              child: Icon(categories[product.category],
-                  size: 35,
-                  color: product.isPrimary
-                      ? context.theme.toggleableActiveColor
-                      : null)),
-        ),
-        title: Text.rich(
-          TextSpan(
-              text: product.productName,
-              style: TextStyle(
-                  fontSize: 15,
-                  color: product.isPrimary
-                      ? context.theme.toggleableActiveColor
-                      : null),
-              children: [
-                if (product.isOffer)
-                  const TextSpan(
-                      text: ' ● ',
-                      style: TextStyle(fontSize: 16, color: Colors.amber))
-              ]),
-        ),
-        subtitle: Text(product.tag, style: const TextStyle(fontSize: 14)),
-        trailing: SizedBox(
-          width: 60,
-          child: Center(
-            child: Text(
-              '€ ${product.realPrice.toStringAsFixed(2)}',
-              style: TextStyle(
-                  fontSize: 14, color: context.theme.colorScheme.primary),
-            ),
-          ),
-        ),
-      );
-
   Widget addDateAmount(
           BuildContext context, DateTime dateTime, String totalValue) =>
       Card(
@@ -130,6 +93,96 @@ class ProductList extends GetView<HomeController> {
                 style: context.textTheme.titleMedium,
               ),
             ],
+          ),
+        ),
+      );
+
+  Widget productItem(BuildContext context, Product product) => InkWell(
+        key: ValueKey(product.objectId),
+        onTap: () => onItemTap?.call(product),
+        child: Dismissible(
+          key: ValueKey('Dism-${product.objectId}'),
+          direction: onItemDismiss != null
+              ? DismissDirection.endToStart
+              : DismissDirection.none,
+          confirmDismiss: (direction) async {
+            if (direction == DismissDirection.endToStart) {
+              onItemDismiss?.call(product);
+            }
+            return false;
+          },
+          background: Container(
+            color: context.theme.primaryColorLight,
+            alignment: Alignment.centerRight,
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 56,
+                  child: Center(
+                      child: Icon(categories[product.category],
+                          size: 35,
+                          color: product.isPrimary
+                              ? context.theme.toggleableActiveColor
+                              : context.theme.disabledColor)),
+                ),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(product.productName,
+                        style: TextStyle(
+                            fontSize: 15,
+                            overflow: TextOverflow.ellipsis,
+                            color: product.isPrimary
+                                ? context.theme.toggleableActiveColor
+                                : null)),
+                    Text(product.tag,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                    Text(product.shop,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                  ],
+                )),
+                SizedBox(
+                  width: 56,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('€ ${product.realPrice.toStringAsFixed(2)}',
+                          style: TextStyle(
+                              backgroundColor: product.isOffer
+                                  ? Colors.amber
+                                  : Colors.transparent,
+                              fontSize: 14,
+                              color: context.theme.colorScheme.primary)),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      if (product.price != product.realPrice)
+                        Text(
+                          '€ ${product.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                              fontSize: 11,
+                              fontStyle: FontStyle.italic,
+                              color: context.theme.colorScheme.secondary),
+                        )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       );
