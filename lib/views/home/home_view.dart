@@ -102,14 +102,14 @@ class HomeView extends GetView<HomeController> {
         return const LoadingPage();
       case HomeStates.list:
         return ProductList(
-            onItemDismiss: controller.onItemDismiss,
+            onItemLongPress: controller.onItemLongPress,
             onItemTap: controller.onItemTap,
             onRefresh: controller.loadData,
             products: controller.products);
       case HomeStates.search:
         return ProductList(
             onItemTap: controller.onItemTap,
-            onItemDismiss: controller.onItemDismiss,
+            onItemLongPress: controller.onItemLongPress,
             onRefresh: () async =>
                 controller.filter(controller.searchController.text),
             products: controller.products);

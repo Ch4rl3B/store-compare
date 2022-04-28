@@ -82,7 +82,7 @@ class HomeController extends GetxController
 
     if(list.isNotEmpty) {
       return list.reduce(max)
-          .toString();
+          .toStringAsFixed(2);
     }
 
     return '--';
@@ -95,7 +95,7 @@ class HomeController extends GetxController
 
     if(list.isNotEmpty) {
       return list.reduce(min)
-          .toString();
+          .toStringAsFixed(2);
     }
 
     return '--';
@@ -129,9 +129,9 @@ class HomeController extends GetxController
       final sortedKeys = folded.keys.toList()
         ..sort((a, b) => folded[b].compareTo(folded[a]));
 
-      return sortedKeys.first.toString();
+      return sortedKeys.first.toStringAsFixed(2);
     }
-    return products.first.price.toString();
+    return products.first.price.toStringAsFixed(2);
   }
 
   String getTotalValue(List<Product> products) {
@@ -224,7 +224,7 @@ class HomeController extends GetxController
    Get.find<ShopListController>().dropItems();
   }
 
-  void onItemDismiss(Product p1) {
+  void onItemLongPress(Product p1) {
     Get.put(AddProductDialogController(this, bindedProduct: p1));
     Get.dialog(const AddProductDialog(),
         barrierDismissible: false, useSafeArea: true)

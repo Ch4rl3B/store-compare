@@ -16,12 +16,14 @@ class AddProductDialog extends GetView<AddProductDialogController> {
       appBar: AppBar(
         title: const Text('Add Product'),
         leading: IconButton(
+          key: const ValueKey('#close'),
           onPressed: Get.back,
           icon: const Icon(Icons.close),
           tooltip: 'Close wihout save',
         ),
         actions: [
           IconButton(
+            key: const ValueKey('#save'),
             onPressed: controller.saveOne,
             icon: const Icon(Icons.save),
             tooltip: 'Save and close',
@@ -38,6 +40,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ReactiveValueListenableBuilder(
+                    key: const ValueKey(keyAmount),
                     formControlName: keyAmount,
                     builder: (context, field, child) => Padding(
                           padding: const EdgeInsets.only(left: 18),
@@ -47,6 +50,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                           ),
                         )),
                 ReactiveSlider(
+                  key: const ValueKey('$keyAmount-slider'),
                   formControlName: keyAmount,
                   min: 1,
                   max: 10,
@@ -56,12 +60,14 @@ class AddProductDialog extends GetView<AddProductDialogController> {
               ],
             ),
             ReactiveTextField<String>(
+              key: const ValueKey(keyName),
               formControlName: keyName,
               validationMessages: (control) =>
                   {'required': 'El campo no debe estar vacío'},
               decoration: const InputDecoration(label: Text('Nombre Aleman')),
             ),
             ReactiveTextField<String>(
+              key: const ValueKey(keyTag),
               formControlName: keyTag,
               validationMessages: (control) =>
                   {'required': 'El campo no debe estar vacío'},
@@ -72,6 +78,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
               children: [
                 Flexible(
                   child: ReactiveTextField<num>(
+                    key: const ValueKey(keyPrice),
                     formControlName: keyPrice,
                     valueAccessor: NumValueAccessor(),
                     keyboardType:
@@ -87,6 +94,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                 ),
                 Flexible(
                   child: ReactiveTextField<num>(
+                    key: const ValueKey(keyRealPrice),
                     formControlName: keyRealPrice,
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
@@ -102,6 +110,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: ReactiveDropdownField<String>(
+                  key: const ValueKey(keyCategory),
                   formControlName: keyCategory,
                   hint: const Text('Categoria:'),
                   itemHeight: kMinInteractiveDimension,

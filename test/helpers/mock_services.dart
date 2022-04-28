@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:get/utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
@@ -19,9 +22,10 @@ class MockProductService extends Mock implements ProductServiceContract {
           returnValue: Future.value(generateProducts()));
 
   @override
-  Future<List<Product>> saveBulk(List<Product> productsToSave) =>
+  Future<List<Product>> saveBulk(List<Product>? productsToSave) =>
       super.noSuchMethod(Invocation.method(#saveBulk, [productsToSave]),
-          returnValue: Future.value(generateProducts()));
+          returnValue: Future.value(
+              generateProducts(amount: productsToSave?.length ?? 10)));
 }
 
 Future<void> setupParseInstance() async {
@@ -50,10 +54,50 @@ Product getDummyProduct({bool isPrimary = false, bool isOffer = false}) {
     ..category = 'alimentos';
 }
 
-List<Product> generateProducts() {
+List<Product> generateProducts({int amount = 10}) {
   final random = Random();
   return List.generate(
-      10,
+      amount,
       (index) => getDummyProduct(
           isOffer: random.nextBool(), isPrimary: random.nextBool()));
+}
+
+Future<void> dismissElement(WidgetTester tester, Finder finder,
+    {required AxisDirection gestureDirection}) async {
+  Offset downLocation;
+  Offset upLocation;
+  switch (gestureDirection) {
+    case AxisDirection.left:
+      // getTopRight() returns a point that's just beyond itemWidget's right
+      // edge and outside the Dismissible event listener's bounds.
+      downLocation = tester.getTopRight(finder);
+      upLocation = tester.getTopLeft(finder) + const Offset(-0.1, 0);
+      break;
+    case AxisDirection.right:
+      // we do the same thing here to keep the test symmetric
+      downLocation = tester.getTopLeft(finder) + const Offset(0.1, 0);
+      upLocation = tester.getTopRight(finder) + const Offset(0.1, 0);
+      break;
+    case AxisDirection.up:
+      // getBottomLeft() returns a point that's just below itemWidget's bottom
+      // edge and outside the Dismissible event listener's bounds.
+      downLocation = tester.getBottomLeft(finder) + const Offset(0, -0.1);
+      upLocation = tester.getTopLeft(finder) + const Offset(0, -0.1);
+      break;
+    case AxisDirection.down:
+      // again with doing the same here for symmetry
+      downLocation = tester.getTopLeft(finder) + const Offset(0.1, 0);
+      upLocation = tester.getBottomLeft(finder) + const Offset(0.1, 0);
+      break;
+  }
+
+  final gesture = await tester.startGesture(downLocation);
+  await gesture.moveTo(upLocation);
+  await gesture.up();
+  await tester.pump();
+  await tester.pump(); // start the slide
+  await tester.pump(1.seconds); // finish the slide and start shrinking...
+  await tester.pump(); // first frame of shrinking animation
+  await tester.pump(1.seconds); // finish the shrinking and call the callback...
+  await tester.pump(); // rebuild after the callback removes the entry
 }

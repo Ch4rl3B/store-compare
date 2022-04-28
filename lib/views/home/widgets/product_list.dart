@@ -1,22 +1,22 @@
 import 'package:dart_date/dart_date.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/models/product.dart';
 import 'package:store_compare/views/home/home_controller.dart';
+import 'package:store_compare/views/home/widgets/product_list_item.dart';
 
 class ProductList extends GetView<HomeController> {
   final List<Product> products;
   final Future<void> Function() onRefresh;
   final Function(Product)? onItemTap;
-  final Function(Product)? onItemDismiss;
+  final Function(Product)? onItemLongPress;
 
   const ProductList(
       {Key? key,
       required this.products,
       required this.onRefresh,
       this.onItemTap,
-      this.onItemDismiss})
+      this.onItemLongPress})
       : super(key: key);
 
   @override
@@ -42,7 +42,11 @@ class ProductList extends GetView<HomeController> {
                     list
                       ..add(addDateAmount(context, entry.key,
                           controller.getTotalValue(entry.value)))
-                      ..addAll(entry.value.map((e) => productItem(context, e)));
+                      ..addAll(entry.value.map((e) => ProductListItem(
+                            product: e,
+                            onItemTap: () => onItemTap?.call(e),
+                            onItemLongPress: () => onItemLongPress?.call(e),
+                          )));
                     return list;
                   }),
             ),
@@ -93,96 +97,6 @@ class ProductList extends GetView<HomeController> {
                 style: context.textTheme.titleMedium,
               ),
             ],
-          ),
-        ),
-      );
-
-  Widget productItem(BuildContext context, Product product) => InkWell(
-        key: ValueKey(product.objectId),
-        onTap: () => onItemTap?.call(product),
-        child: Dismissible(
-          key: ValueKey('Dism-${product.objectId}'),
-          direction: onItemDismiss != null
-              ? DismissDirection.endToStart
-              : DismissDirection.none,
-          confirmDismiss: (direction) async {
-            if (direction == DismissDirection.endToStart) {
-              onItemDismiss?.call(product);
-            }
-            return false;
-          },
-          background: Container(
-            color: context.theme.primaryColorLight,
-            alignment: Alignment.centerRight,
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 56,
-                  child: Center(
-                      child: Icon(categories[product.category],
-                          size: 35,
-                          color: product.isPrimary
-                              ? context.theme.toggleableActiveColor
-                              : context.theme.disabledColor)),
-                ),
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(product.productName,
-                        style: TextStyle(
-                            fontSize: 15,
-                            overflow: TextOverflow.ellipsis,
-                            color: product.isPrimary
-                                ? context.theme.toggleableActiveColor
-                                : null)),
-                    Text(product.tag,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                    Text(product.shop,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                  ],
-                )),
-                SizedBox(
-                  width: 56,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('€ ${product.realPrice.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              backgroundColor: product.isOffer
-                                  ? Colors.amber
-                                  : Colors.transparent,
-                              fontSize: 14,
-                              color: context.theme.colorScheme.primary)),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      if (product.price != product.realPrice)
-                        Text(
-                          '€ ${product.price.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              fontSize: 11,
-                              fontStyle: FontStyle.italic,
-                              color: context.theme.colorScheme.secondary),
-                        )
-                    ],
-                  ),
-                )
-              ],
-            ),
           ),
         ),
       );
