@@ -7,7 +7,6 @@ import 'package:store_compare/helpers/num_value_accesor.dart';
 import 'package:store_compare/views/product_form/add_product_dialog_controller.dart';
 
 class AddProductDialog extends GetView<AddProductDialogController> {
-
   const AddProductDialog({Key? key}) : super(key: key);
 
   @override
@@ -128,6 +127,20 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                           )))
                       .toList()),
             ),
+            ReactiveDropdownField<String>(
+              key: const ValueKey(keyShop),
+              formControlName: keyShop,
+              items: controller.nomenclators
+                  .map((e) => DropdownMenuItem<String>(
+                        key: ValueKey(e.toString()),
+                        value: e.value,
+                        child: Text(e.value),
+                      ))
+                  .toList(),
+              validationMessages: (control) =>
+                  {'required': 'El campo no debe estar vacío'},
+              decoration: const InputDecoration(label: Text('Tienda')),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -172,9 +185,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                         primary: context.theme.colorScheme.secondary),
                     icon: const Icon(Icons.cleaning_services),
                     label: const Text('Limpiar'),
-                    onPressed: form.pristine
-                        ? null
-                        : controller.clean,
+                    onPressed: form.pristine ? null : controller.clean,
                   ),
                 );
               },

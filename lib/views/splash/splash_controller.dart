@@ -2,13 +2,12 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/constants/paths.dart';
+import 'package:store_compare/services/nomenclator_service.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/services/shop_item_service.dart';
 import 'package:store_compare/views/splash/splash_states.dart';
-import 'package:supercharged/supercharged.dart';
 
 class SplashController extends GetxController with StateMixin<SplashStates> {
-
   @override
   void onInit() {
     loading();
@@ -19,7 +18,8 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
     change(SplashStates.loading, status: RxStatus.success());
     //Here should go all loading futures...
     await Future.wait([
-      Parse().initialize(keyApplicationId, keyParseServerUrl,
+      Parse().initialize(
+        keyApplicationId, keyParseServerUrl,
         // ignore: invalid_return_type_for_catch_error
         clientKey: keyClientKey,
         appName: keyApplicationName,
@@ -40,7 +40,7 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
   Future<void> fetchData() async {
     change(SplashStates.fetching, status: RxStatus.success());
     //Here should go all fetching data process...
-    await Future.delayed(5.seconds);
+    await Get.putAsync<NomenclatorsServiceContract>(NomenclatorsService.create);
     change(SplashStates.complete, status: RxStatus.success());
     goHome();
   }

@@ -4,11 +4,13 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/models/product.dart';
+import 'package:store_compare/services/nomenclator_service.dart';
 import 'package:store_compare/views/product_form/add_product_interface.dart';
 
 class AddProductDialogController extends GetxController {
   final Product? bindedProduct;
   final AddProductInterface parent;
+  final NomenclatorsServiceContract nomenclatorsService = Get.find();
 
   AddProductDialogController(this.parent, {this.bindedProduct});
 
@@ -33,8 +35,14 @@ class AddProductDialogController extends GetxController {
     ]),
     keyIsPrimary: FormControl<bool>(value: false),
     keyIsOffer: FormControl<bool>(value: false),
-    keyShop: FormControl<String>(value: 'Test'),
+    keyShop: FormControl<String>(),
   });
+
+  List<Nomenclator> get nomenclators =>
+      nomenclatorsService.nomenclators[keyShop.toUpperCase()]
+          ?.takeWhile((value) => value.active)
+          .toList() ??
+      [];
 
   @override
   void onInit() {
@@ -85,7 +93,10 @@ class AddProductDialogController extends GetxController {
       keyRealPrice: bindedProduct?.realPrice,
       keyIsOffer: bindedProduct?.isOffer,
       keyIsPrimary: bindedProduct?.isPrimary,
-      keyShop: bindedProduct?.shop
+      // ignore: iterable_contains_unrelated_type
+      keyShop: nomenclators.contains(bindedProduct?.shop)
+          ? bindedProduct?.shop
+          : null
     });
   }
 
