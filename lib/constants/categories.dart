@@ -1,23 +1,89 @@
-
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-final Map<String, IconData> categories = {
-  'alimento' : Icons.fastfood,
-  'aseo' : Icons.clean_hands,
-  'limpieza' : Icons.cleaning_services,
-  'golosinas' : Icons.cookie,
-  'salud': Icons.volunteer_activism,
-  'test': Icons.bug_report
+
+final Map<String, IconData> icons = {
+  'fruit_apple': LineAwesomeIcons.fruit_apple,
+  'bone': LineAwesomeIcons.bone,
+  'bread_slice': LineAwesomeIcons.bread_slice,
+  'candy_cane': LineAwesomeIcons.candy_cane,
+  'carrot': LineAwesomeIcons.carrot,
+  'cheese': LineAwesomeIcons.cheese,
+  'cookie': LineAwesomeIcons.cookie,
+  'cookie_bite': LineAwesomeIcons.cookie_bite,
+  'drumstick_with_bite_taken_out':
+      LineAwesomeIcons.drumstick_with_bite_taken_out,
+  'egg': LineAwesomeIcons.egg,
+  'fish': LineAwesomeIcons.fish,
+  'hamburger': LineAwesomeIcons.hamburger,
+  'hot_dog': LineAwesomeIcons.hot_dog,
+  'ice_cream': LineAwesomeIcons.ice_cream,
+  'pizza_slice': LineAwesomeIcons.pizza_slice,
+  'heartbeat': LineAwesomeIcons.heartbeat,
+  'exclamation': LineAwesomeIcons.exclamation,
+  'exclamation_circle': LineAwesomeIcons.exclamation_circle,
+  'exclamation_triangle': LineAwesomeIcons.exclamation_triangle,
+  'music': LineAwesomeIcons.music,
+  'youtube': LineAwesomeIcons.youtube,
+  'photo_video': LineAwesomeIcons.photo_video,
+  'film': LineAwesomeIcons.film,
+  'taxi': LineAwesomeIcons.taxi,
+  'bus': LineAwesomeIcons.bus,
+  'campground': LineAwesomeIcons.campground,
+  'beer': LineAwesomeIcons.beer,
+  'cocktail': LineAwesomeIcons.cocktail,
+  'flask': LineAwesomeIcons.flask,
+  'wine_bottle': LineAwesomeIcons.wine_bottle,
+  'alternate_wine_glas': LineAwesomeIcons.alternate_wine_glas,
+  'airbnb': LineAwesomeIcons.airbnb,
+  'amazon': LineAwesomeIcons.amazon,
+  'apple': LineAwesomeIcons.apple,
+  'home': LineAwesomeIcons.home,
+  'alternate_store': LineAwesomeIcons.alternate_store,
+  'school': LineAwesomeIcons.school,
+  'birthday_cake': LineAwesomeIcons.birthday_cake,
+  'globe': LineAwesomeIcons.globe,
+  'wallet': LineAwesomeIcons.wallet,
+  'gift': LineAwesomeIcons.gift,
+  'phone': LineAwesomeIcons.phone,
+  'sms': LineAwesomeIcons.sms,
+  'chess': LineAwesomeIcons.chess,
+  'bath': LineAwesomeIcons.bath,
+  'broom': LineAwesomeIcons.broom,
+  'shapes': LineAwesomeIcons.shapes,
+  't_shirt': LineAwesomeIcons.t_shirt,
+  'socks': LineAwesomeIcons.socks,
+  'bug': LineAwesomeIcons.bug,
+  'code': LineAwesomeIcons.code,
+  'code_file': LineAwesomeIcons.code_file,
+  'pencil_ruler': LineAwesomeIcons.pencil_ruler,
+  'hammer': LineAwesomeIcons.hammer,
+  'brush': LineAwesomeIcons.brush,
+  'palette': LineAwesomeIcons.palette,
+  'icons': LineAwesomeIcons.icons,
+  'broadcast_tower': LineAwesomeIcons.broadcast_tower,
+  'dice': LineAwesomeIcons.dice,
+  'gamepad': LineAwesomeIcons.gamepad,
+  'steam': LineAwesomeIcons.steam,
+  'toilet_paper': LineAwesomeIcons.toilet_paper,
+  'hand_holding_heart': LineAwesomeIcons.hand_holding_heart,
+  'concierge_bell': LineAwesomeIcons.concierge_bell,
+  'bed': LineAwesomeIcons.bed,
+  'cloud': LineAwesomeIcons.cloud,
+  'alternate_trash': LineAwesomeIcons.alternate_trash,
+  'box': LineAwesomeIcons.box,
+  'leaf': LineAwesomeIcons.leaf,
+  'shopping_bag': LineAwesomeIcons.shopping_bag,
+  'shopping_basket': LineAwesomeIcons.shopping_basket,
+  'shopping_cart': LineAwesomeIcons.shopping_cart,
+  'capsules': LineAwesomeIcons.capsules,
+  'syringe': LineAwesomeIcons.syringe,
+  'guitar': LineAwesomeIcons.guitar,
+  'cubes': LineAwesomeIcons.cubes,
+  'futbol': LineAwesomeIcons.futbol,
+  'heart_broken': LineAwesomeIcons.heart_broken,
+  'medkit': LineAwesomeIcons.medkit,
+  'plane': LineAwesomeIcons.plane,
+  'subway': LineAwesomeIcons.subway,
+  '': LineAwesomeIcons.ban
 };
-
-
-final List<Color> storeColors = [
-  Colors.black, //Unknown
-  Colors.deepOrange, // Penny
-  Colors.indigo, // Aldi
-  Colors.red, // Rewe
-  Colors.amber, // Edeka
-  Colors.brown, // Asia Market
-  Colors.blue, // Budni
-  Colors.teal // Rossman
-];

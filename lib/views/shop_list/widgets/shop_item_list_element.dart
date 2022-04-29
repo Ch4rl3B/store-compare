@@ -43,12 +43,12 @@ class _ShopItemListElementState extends State<ShopItemListElement> {
                 });
               });
             }),
-          Text(
-            widget.item.name,
-            style: context.theme.textTheme.bodyLarge,
+          Expanded(
+            child: Text(
+              '${widget.item.name} x${widget.item.amount}',
+              style: context.theme.textTheme.bodyLarge,
+            ),
           ),
-          Text(' x${widget.item.amount}',
-              style: context.theme.textTheme.bodyLarge)
         ],
       ),
     );

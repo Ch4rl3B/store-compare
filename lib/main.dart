@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
       ],
       routes: AppRoutes.appRoutes,
       initialRoute: Paths.splash,
+      debugShowCheckedModeBanner: false,
       builder: (context, widget) => SafeArea(child: widget!),
     );
   }

@@ -7,9 +7,10 @@ class ProductListItem extends StatelessWidget {
   final Product product;
   final VoidCallback? onItemTap;
   final VoidCallback? onItemLongPress;
+  final IconData? iconData;
 
   const ProductListItem(
-      {Key? key, required this.product, this.onItemLongPress, this.onItemTap})
+      {Key? key, required this.product, this.onItemLongPress, this.onItemTap, this.iconData})
       : super(key: key);
 
   @override
@@ -24,12 +25,11 @@ class ProductListItem extends StatelessWidget {
           children: [
             SizedBox(
               width: 56,
-              child: Center(
-                  child: Icon(categories[product.category],
-                      size: 35,
-                      color: product.isPrimary
-                          ? context.theme.toggleableActiveColor
-                          : context.theme.disabledColor)),
+              child: Icon(iconData ?? icons[''],
+                  size: 40,
+                  color: product.isPrimary
+                      ? context.theme.toggleableActiveColor
+                      : context.theme.disabledColor),
             ),
             Expanded(
                 child: Column(

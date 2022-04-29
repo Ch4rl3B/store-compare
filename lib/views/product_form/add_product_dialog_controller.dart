@@ -27,7 +27,7 @@ class AddProductDialogController extends GetxController {
     keyPrice: FormControl<num>(validators: [
       Validators.required,
     ]),
-    keyCategory: FormControl<String>(value: categories.keys.first, validators: [
+    keyCategory: FormControl<String>(value: icons.keys.first, validators: [
       Validators.required,
     ]),
     keyRealPrice: FormControl<num>(validators: [
@@ -39,7 +39,7 @@ class AddProductDialogController extends GetxController {
   });
 
   List<Nomenclator> get nomenclators =>
-      nomenclatorsService.nomenclators[keyShop.toUpperCase()]
+      nomenclatorsService.nomenclators[Nomenclators.shop]
           ?.takeWhile((value) => value.active)
           .toList() ??
       [];
@@ -86,7 +86,7 @@ class AddProductDialogController extends GetxController {
   void initForm() {
     form.reset(value: {
       keyAmount: 1,
-      keyCategory: bindedProduct?.category,
+      keyCategory: bindedProduct?.category ?? icons.keys.first,
       keyName: bindedProduct?.productName,
       keyTag: bindedProduct?.tag,
       keyPrice: bindedProduct?.price,

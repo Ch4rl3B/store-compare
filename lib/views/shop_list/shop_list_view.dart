@@ -11,7 +11,9 @@ class ShopListView extends GetView<ShopListController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
+        SizedBox(
+            height: 150,
+            width: double.infinity,
             child: AddItemForm(submit: controller.addNewItem,)),
         Expanded(
           flex: 3,

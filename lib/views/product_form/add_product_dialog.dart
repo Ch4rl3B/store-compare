@@ -113,7 +113,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                   formControlName: keyCategory,
                   hint: const Text('Categoria:'),
                   itemHeight: kMinInteractiveDimension,
-                  items: categories.entries
+                  items: icons.entries
                       .map((entry) => DropdownMenuItem<String>(
                           value: entry.key,
                           child: Row(

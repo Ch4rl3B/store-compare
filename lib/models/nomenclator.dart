@@ -24,6 +24,10 @@ class Nomenclator extends ParseObject implements ParseCloneable {
 
   set active(bool? active) => set<bool>(keyNomenclatorActive, active ?? false);
 
+  String? get data => get<String>(keyNomenclatorData)!;
+
+  set data(String? data) => set<String?>(keyNomenclatorData, data);
+
   @override
   bool operator ==(Object other) {
     if (other is String) {
@@ -39,6 +43,13 @@ class Nomenclator extends ParseObject implements ParseCloneable {
     return Nomenclator()
       ..type = objectData[keyNomenclatorType]
       ..value = objectData[keyNomenclatorValue]
-      ..active = objectData[keyNomenclatorActive];
+      ..active = objectData[keyNomenclatorActive]
+      ..data = objectData[keyNomenclatorData];
   }
+}
+
+
+class Nomenclators {
+  static String shop = 'SHOP';
+  static String category = 'CATEGORY';
 }

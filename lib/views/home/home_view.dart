@@ -88,6 +88,9 @@ class HomeView extends GetView<HomeController> {
                 SalomonBottomBarItem(
                     icon: const Icon(Icons.shopping_basket),
                     title: const Text('A Comprar')),
+                SalomonBottomBarItem(
+                    icon: const Icon(Icons.code),
+                    title: const Text('Nomencladores')),
               ],
               currentIndex: controller.currentIndex,
               //optional, default as 0
@@ -104,6 +107,7 @@ class HomeView extends GetView<HomeController> {
         return ProductList(
             onItemLongPress: controller.onItemLongPress,
             onItemTap: controller.onItemTap,
+            onDoubleTap: () => controller.onItemLongPress(null),
             onRefresh: controller.loadData,
             products: controller.products);
       case HomeStates.search:
@@ -119,6 +123,8 @@ class HomeView extends GetView<HomeController> {
         return const NoProduct();
       case HomeStates.shopList:
         return const ShopListView();
+      case HomeStates.nomenclators:
+        return Container(color: Colors.red,);
     }
   }
 }

@@ -10,12 +10,14 @@ class ProductList extends GetView<HomeController> {
   final Future<void> Function() onRefresh;
   final Function(Product)? onItemTap;
   final Function(Product)? onItemLongPress;
+  final VoidCallback? onDoubleTap;
 
   const ProductList(
       {Key? key,
       required this.products,
       required this.onRefresh,
       this.onItemTap,
+      this.onDoubleTap,
       this.onItemLongPress})
       : super(key: key);
 
@@ -46,6 +48,7 @@ class ProductList extends GetView<HomeController> {
                             product: e,
                             onItemTap: () => onItemTap?.call(e),
                             onItemLongPress: () => onItemLongPress?.call(e),
+                            iconData: controller.getCategoryIcon(e.category),
                           )));
                     return list;
                   }),
@@ -79,24 +82,27 @@ class ProductList extends GetView<HomeController> {
 
   Widget addDateAmount(
           BuildContext context, DateTime dateTime, String totalValue) =>
-      Card(
-        color: context.theme.primaryColorLight.withOpacity(0.3),
-        shadowColor: Colors.grey.withAlpha(5),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                dateTime.format('dd.MM.yyyy'),
-                style: context.textTheme.titleLarge,
-              ),
-              Text(
-                '€ $totalValue',
-                style: context.textTheme.titleMedium,
-              ),
-            ],
+      GestureDetector(
+        onDoubleTap: onDoubleTap,
+        child: Card(
+          color: context.theme.primaryColorLight.withOpacity(0.3),
+          shadowColor: Colors.grey.withAlpha(5),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  dateTime.format('dd.MM.yyyy'),
+                  style: context.textTheme.titleLarge,
+                ),
+                Text(
+                  '€ $totalValue',
+                  style: context.textTheme.titleMedium,
+                ),
+              ],
+            ),
           ),
         ),
       );

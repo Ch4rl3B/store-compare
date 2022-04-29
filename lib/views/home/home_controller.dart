@@ -3,8 +3,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/helpers/extensions.dart';
+import 'package:store_compare/models/nomenclator.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/home/home_states.dart';
 import 'package:store_compare/views/home/widgets/loading_dialog.dart';
@@ -16,8 +18,8 @@ import 'package:store_compare/views/shop_list/shop_list.dart';
 class HomeController extends GetxController
     with StateMixin<HomeStates>
     implements AddProductInterface {
-  final ProductServiceContract productService =
-      Get.find<ProductServiceContract>();
+  final ProductServiceContract productService = Get.find();
+  final NomenclatorsServiceContract nomenclatorsService = Get.find();
   List<Product> products = [];
   List<Product> filtered = [];
   final searchController = TextEditingController();
@@ -64,9 +66,9 @@ class HomeController extends GetxController
       debugPrint('text to search: $value');
       filtered = await productService.filter(value);
       products = filtered.toSet().toList();
-      if(products.isEmpty){
+      if (products.isEmpty) {
         change(HomeStates.empty, status: RxStatus.success());
-      } else if(products.length == 1){
+      } else if (products.length == 1) {
         change(HomeStates.details, status: RxStatus.success());
       } else {
         change(HomeStates.search, status: RxStatus.success());
@@ -80,9 +82,8 @@ class HomeController extends GetxController
         .where((element) => element == products.first && !element.isOffer)
         .map((e) => e.price);
 
-    if(list.isNotEmpty) {
-      return list.reduce(max)
-          .toStringAsFixed(2);
+    if (list.isNotEmpty) {
+      return list.reduce(max).toStringAsFixed(2);
     }
 
     return '--';
@@ -93,9 +94,8 @@ class HomeController extends GetxController
         .where((element) => element == products.first && !element.isOffer)
         .map((e) => e.price);
 
-    if(list.isNotEmpty) {
-      return list.reduce(min)
-          .toStringAsFixed(2);
+    if (list.isNotEmpty) {
+      return list.reduce(min).toStringAsFixed(2);
     }
 
     return '--';
@@ -105,7 +105,7 @@ class HomeController extends GetxController
     final list = filtered
         .where((element) => element == products.first && !element.isOffer);
 
-    if(list.isNotEmpty) {
+    if (list.isNotEmpty) {
       return list.reduce((a, b) => a.price <= b.price ? a : b).shop;
     }
 
@@ -135,12 +135,9 @@ class HomeController extends GetxController
   }
 
   String getTotalValue(List<Product> products) {
-    final list = products
-        .map((e) => e.realPrice);
-    if(list.isNotEmpty){
-      return list
-          .reduce((a, b) => a + b)
-          .toStringAsFixed(2);
+    final list = products.map((e) => e.realPrice);
+    if (list.isNotEmpty) {
+      return list.reduce((a, b) => a + b).toStringAsFixed(2);
     }
     return '0.00';
   }
@@ -165,8 +162,8 @@ class HomeController extends GetxController
   Future<void> addProduct(Map<String, dynamic> formData) async {
     debugPrint(formData.toString());
     final amount = formData.remove(keyAmount);
-    final productsToSave = List.generate(
-        amount, (index) => Product.fromMap(formData));
+    final productsToSave =
+        List.generate(amount, (index) => Product.fromMap(formData));
     unawaited(Get.dialog(const LoadingDialog(), barrierDismissible: true));
     try {
       _populateLists(await productService.saveBulk(productsToSave));
@@ -178,7 +175,7 @@ class HomeController extends GetxController
             snackPosition: SnackPosition.BOTTOM,
             isDismissible: true,
             margin: const EdgeInsets.only(bottom: 12));
-    } catch (ex){
+    } catch (ex) {
       Get.back();
       Get.context?.saveError(ex.toString());
     }
@@ -190,10 +187,10 @@ class HomeController extends GetxController
   }
 
   void _populateLists(List<Product> newProducts) {
-    if(products.length > 1) {
+    if (products.length > 1) {
       products.insertAll(0, newProducts);
     }
-    if(products.isEmpty){
+    if (products.isEmpty) {
       products.insert(0, newProducts.last);
       change(HomeStates.details, status: RxStatus.success());
     }
@@ -202,18 +199,34 @@ class HomeController extends GetxController
   }
 
   void changeIndex(int index) {
-    switch(index){
-      case 1  :
-        previousState = state;
+    previousState = state;
+    switch (index) {
+      case 1:
         change(HomeStates.shopList, status: RxStatus.success());
         break;
+      case 2:
+        change(HomeStates.nomenclators, status: RxStatus.success());
+        break;
       default:
-        change(previousState ?? HomeStates.list, status: RxStatus.success());
+        change(HomeStates.list, status: RxStatus.success());
     }
   }
 
-  int get currentIndex => state! == HomeStates.shopList ? 1 : 0;
-
+  int get currentIndex {
+    switch (state) {
+      case HomeStates.shopList:
+        return 1;
+      case HomeStates.nomenclators:
+        return 2;
+      case HomeStates.loading:
+      case HomeStates.list:
+      case HomeStates.search:
+      case HomeStates.details:
+      case HomeStates.empty:
+      case null:
+        return 0;
+    }
+  }
 
   void onItemTap(Product p1) {
     searchController.text = p1.productName;
@@ -221,15 +234,21 @@ class HomeController extends GetxController
   }
 
   void cleanShopList() {
-   Get.find<ShopListController>().dropItems();
+    Get.find<ShopListController>().dropItems();
   }
 
-  void onItemLongPress(Product p1) {
+  void onItemLongPress(Product? p1) {
     Get.put(AddProductDialogController(this, bindedProduct: p1));
     Get.dialog(const AddProductDialog(),
-        barrierDismissible: false, useSafeArea: true)
+            barrierDismissible: false, useSafeArea: true)
         .then((_) {
       Get.delete<AddProductDialogController>();
     });
+  }
+
+  IconData? getCategoryIcon(String category) {
+    final categories = nomenclatorsService.nomenclators[Nomenclators.category];
+    return icons[categories?.firstWhere((element) => element.value == category,
+        orElse: Nomenclator.new).data ?? ''];
   }
 }

@@ -25,3 +25,4 @@ const keyItemCompleted = 'completed';
 const keyNomenclatorType = 'type';
 const keyNomenclatorValue = 'value';
 const keyNomenclatorActive = 'active';
+const keyNomenclatorData = 'data';

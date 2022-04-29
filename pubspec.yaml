@@ -47,6 +47,7 @@ dependencies:
   flex_color_scheme: ^4.2.0
   salomon_bottom_bar: ^3.3.0
   dart_date: ^1.1.1
+  line_awesome_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:
