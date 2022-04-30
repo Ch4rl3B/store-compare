@@ -12,7 +12,7 @@ class ShopListView extends GetView<ShopListController> {
     return Column(
       children: [
         SizedBox(
-            height: 150,
+            height: 210,
             width: double.infinity,
             child: AddItemForm(submit: controller.addNewItem,)),
         Expanded(

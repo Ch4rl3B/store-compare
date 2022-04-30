@@ -19,6 +19,7 @@ const keyShop = 'shop';
 const keyItemName = 'name';
 const keyItemAmount = 'amount';
 const keyItemCompleted = 'completed';
+const keyItemCategory = 'category';
 
 
 //Nomenclator

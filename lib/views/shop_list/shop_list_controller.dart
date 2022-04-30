@@ -14,6 +14,7 @@ class ShopListController extends GetxController {
 
   Future<void> fetchItems() async {
     final response = await shopItemService.fetchAll();
+    response.sort((a, b) => a.category.value.compareTo(b.category.value));
     itemList.assignAll(response);
   }
 

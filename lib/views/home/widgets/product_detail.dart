@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/models/product.dart';
 import 'package:store_compare/views/home/home_controller.dart';
 import 'package:store_compare/views/home/widgets/product_list.dart';

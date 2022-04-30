@@ -1,5 +1,6 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
+import 'package:store_compare/models/nomenclator.dart';
 import 'package:store_compare/models/product.dart';
 
 class ShopItem extends ParseObject implements ParseCloneable {
@@ -24,6 +25,10 @@ class ShopItem extends ParseObject implements ParseCloneable {
   set completed(bool? completed) =>
       set<bool>(keyItemCompleted, completed ?? false);
 
+  Nomenclator get category => get<Nomenclator>(keyItemCategory)!;
+  set category(Nomenclator category) =>
+      set<Nomenclator>(keyItemCategory, category);
+
 
   @override
   bool operator ==(Object other) {
@@ -40,6 +45,7 @@ class ShopItem extends ParseObject implements ParseCloneable {
     return ShopItem()
       ..name = objectData[keyItemName]
       ..amount = objectData[keyItemAmount]
+      ..category = objectData[keyItemCategory]
       ..completed = objectData[keyItemCompleted];
   }
 }

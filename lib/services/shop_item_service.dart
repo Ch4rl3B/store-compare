@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/models/shop_item.dart';
 import 'package:store_compare/services/contracts.dart';
 
@@ -10,6 +11,7 @@ class ShopItemService extends GetxService implements ShopItemContract {
   @override
   Future<List<ShopItem>> fetchAll() async {
     final query = QueryBuilder<ShopItem>(ShopItem())
+      ..includeObject([keyItemCategory])
       ..orderByDescending('createdAt');
 
     final apiResponse = await query.query<ShopItem>();

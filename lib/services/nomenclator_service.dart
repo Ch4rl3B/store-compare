@@ -21,6 +21,7 @@ class NomenclatorsService extends GetxService
         previousValue[element.type] = List.empty(growable: true);
       }
       previousValue[element.type]!.add(element);
+      previousValue[element.type]!.sort((a, b) => a.value.compareTo(b.value));
       return previousValue;
     });
     return service;

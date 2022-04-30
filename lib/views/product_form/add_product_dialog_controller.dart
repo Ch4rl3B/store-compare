@@ -40,9 +40,15 @@ class AddProductDialogController extends GetxController {
 
   List<Nomenclator> get nomenclators =>
       nomenclatorsService.nomenclators[Nomenclators.shop]
-          ?.takeWhile((value) => value.active)
+          ?.where((value) => value.active)
           .toList() ??
       [];
+
+  List<Nomenclator> get categories =>
+      nomenclatorsService.nomenclators[Nomenclators.category]
+          ?.where((value) => value.active)
+          .toList() ??
+          [];
 
   @override
   void onInit() {

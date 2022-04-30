@@ -45,7 +45,12 @@ class HomeView extends GetView<HomeController> {
               ),
               actions: [
                 Visibility(
-                  visible: state! != HomeStates.shopList,
+                  visible: [
+                    HomeStates.list,
+                    HomeStates.details,
+                    HomeStates.search,
+                    HomeStates.empty
+                  ].contains(state),
                   child: IconButton(
                       key: const ValueKey('#search'),
                       onPressed: controller.search,
@@ -68,7 +73,7 @@ class HomeView extends GetView<HomeController> {
                   border: Border(
                       bottom: BorderSide(color: context.theme.dividerColor))),
               padding: const EdgeInsets.only(bottom: 8),
-              child: loadState(state),
+              child: loadState(state ?? HomeStates.loading),
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
@@ -88,9 +93,9 @@ class HomeView extends GetView<HomeController> {
                 SalomonBottomBarItem(
                     icon: const Icon(Icons.shopping_basket),
                     title: const Text('A Comprar')),
-                SalomonBottomBarItem(
+                /*SalomonBottomBarItem(
                     icon: const Icon(Icons.code),
-                    title: const Text('Nomencladores')),
+                    title: const Text('Nomencladores')),*/
               ],
               currentIndex: controller.currentIndex,
               //optional, default as 0

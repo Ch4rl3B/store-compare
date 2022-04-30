@@ -85,5 +85,6 @@ final Map<String, IconData> icons = {
   'medkit': LineAwesomeIcons.medkit,
   'plane': LineAwesomeIcons.plane,
   'subway': LineAwesomeIcons.subway,
+  'snowflake': LineAwesomeIcons.snowflake,
   '': LineAwesomeIcons.ban
 };

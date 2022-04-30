@@ -78,7 +78,7 @@ Product getDummyProduct({bool isPrimary = false, bool isOffer = false}) {
     ..isOffer = isOffer
     ..shop = 'Test'
     ..searchCode = name.hashCode
-    ..category = 'alimentos';
+    ..category = 'alimento';
 }
 
 Nomenclator getDummyNomenclator({String? type, bool neww = false}) {

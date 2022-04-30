@@ -25,7 +25,8 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
         appName: keyApplicationName,
         registeredSubClassMap: <String, ParseObjectConstructor>{
           'Products': Product.new,
-          'ShopItems': ShopItem.new
+          'ShopItems': ShopItem.new,
+          'Nomenclators': Nomenclator.new
         },
         // ignore: invalid_return_type_for_catch_error
       ).catchError(onError),

@@ -24,7 +24,7 @@ class Nomenclator extends ParseObject implements ParseCloneable {
 
   set active(bool? active) => set<bool>(keyNomenclatorActive, active ?? false);
 
-  String? get data => get<String>(keyNomenclatorData)!;
+  String? get data => get<String>(keyNomenclatorData);
 
   set data(String? data) => set<String?>(keyNomenclatorData, data);
 
