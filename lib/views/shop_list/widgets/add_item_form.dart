@@ -54,13 +54,22 @@ class AddItemForm extends StatelessWidget {
                                               value: e,
                                               child: Row(
                                                 children: [
-                                                  Icon(icons[e.data], size: 18,),
-                                                  const SizedBox(width: 2,),
+                                                  Icon(
+                                                    icons[e.data],
+                                                    size: 18,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 2,
+                                                  ),
                                                   Text(e.value)
                                                 ],
                                               ),
                                             ))
                                         .toList(),
+                                    validationMessages: (control) => {
+                                          ValidationMessage.required:
+                                              'Requerido'
+                                        },
                                     decoration: const InputDecoration(
                                         label: Text('Categoría')))),
                             const SizedBox(
@@ -94,7 +103,7 @@ class AddItemForm extends StatelessWidget {
                             icon: const Icon(Icons.add_shopping_cart),
                             label: const Text('Adicionar')))),
                 const SizedBox(
-                  height: 4,
+                  height: 6,
                 ),
               ],
             ));

@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:store_compare/models/nomenclator.dart';
 import 'package:store_compare/models/shop_item.dart';
 import 'package:store_compare/views/shop_list/widgets/shop_item_list_element.dart';
 
 class ShopItemList extends StatelessWidget {
   final List<ShopItem> list;
-  final ValueChanged<int> onItemSelected;
-  final Future<void> Function() onRefresh;
-  final ValueChanged<int> onItemDismissed;
+  final Function(Nomenclator, int) onItemSelected;
+  final Function(Nomenclator, int) onItemDismissed;
 
   const ShopItemList({
     Key? key,
     required this.list,
     required this.onItemSelected,
-    required this.onRefresh,
     required this.onItemDismissed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView.builder(
+    return ListView.builder(
           padding: const EdgeInsets.only(top: 12, left: 8, right: 8),
           itemExtent: 45,
           itemCount: list.length,
@@ -46,7 +43,7 @@ class ShopItemList extends StatelessWidget {
                 },
                 onDismissed: (direction) {
                   if (direction == DismissDirection.endToStart) {
-                    onItemDismissed.call(index);
+                    onItemDismissed.call(list[index].category, index);
                   }
                 },
                 background: Container(
@@ -59,9 +56,8 @@ class ShopItemList extends StatelessWidget {
                 ),
                 child: ShopItemListElement(
                   item: list[index],
-                  onChanged: (_) => onItemSelected(index),
+                  onChanged: (_) => onItemSelected(list[index].category, index),
                 ),
-              )),
-    );
+              ));
   }
 }

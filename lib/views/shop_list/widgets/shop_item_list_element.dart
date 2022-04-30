@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
-import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/models/shop_item.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -22,7 +21,7 @@ class _ShopItemListElementState extends State<ShopItemListElement> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 1),
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: EdgeInsets.zero,
       child: Row(
         children: [
           if (loading)
@@ -44,8 +43,6 @@ class _ShopItemListElementState extends State<ShopItemListElement> {
                 });
               });
             }),
-          Icon(icons[widget.item.category.data], size: 18,),
-          const SizedBox(width: 4,),
           Expanded(
             child: Text(
               '${widget.item.name} x${widget.item.amount}',
