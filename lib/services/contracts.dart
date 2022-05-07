@@ -7,6 +7,7 @@ import 'package:store_compare/models/shop_item.dart';
 abstract class ProductServiceContract {
   Future<List<Product>> fetchAll();
   Future<List<Product>> filter(String filter);
+  Future<List<Product>> getAllByTagAndCategory(String tag, String category);
   Future<List<Product>> saveBulk(List<Product> productsToSave);
 }
 

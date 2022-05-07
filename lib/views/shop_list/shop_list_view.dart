@@ -31,6 +31,39 @@ class ShopListView extends GetView<ShopListController> {
                       itemBuilder: itemBuilder),
                 ),
               )),
+        ),
+        Divider(
+          color: context.theme.colorScheme.onBackground,
+          height: 2,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Row(
+          children: [
+            Expanded(child: Container()),
+            Obx(() {
+              controller.itemProducts.value;
+              return FutureBuilder<double>(
+                  future: controller.getTotalValue(),
+                  initialData: 0,
+                  builder: (context, snapshot) {
+                    return Text(
+                        !snapshot.hasData
+                            ? 'loading'
+                            : 'Estimado: € ${(snapshot.data!).toStringAsFixed(2)}',
+                        style: context.theme.textTheme.bodyLarge!.copyWith(
+                            color: snapshot.data! > 120
+                                ? context.theme.colorScheme.error
+                                : snapshot.data! > 80
+                                ? context.theme.colorScheme.secondary
+                                : null));
+                  });
+            }),
+            const SizedBox(
+              width: 24,
+            )
+          ],
         )
       ],
     );
@@ -71,49 +104,68 @@ class ShopListView extends GetView<ShopListController> {
         ),
       ),
       child: ExpandableNotifier(
-          child: ScrollOnExpand(
-            scrollOnCollapse: false,
-            child: ExpandablePanel(
-              theme: const ExpandableThemeData(
-                headerAlignment: ExpandablePanelHeaderAlignment.center,
-                tapBodyToCollapse: true,
-              ),
-              header: Container(
-                height: 45,
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    Icon(icons[element.key.data], size: 18,),
-                    const SizedBox(width: 2,),
-                    Text(element.key.value.toUpperCase()),
-                    const SizedBox(width: 2,),
-                    Text(controller.getAmount(element.value))
-                  ],
-                ),
-              ),
-              collapsed: Container(),
-              expanded: SizedBox(
-                height: element.value.length * 45,
-                child: ShopItemList(
-                  list: element.value,
-                  onItemSelected: controller.toggle,
-                  onItemDismissed: controller.dropItem,
-                ),
-              ),
-              builder: (_, collapsed, expanded) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 4, right: 8, bottom: 10),
-                  child: Expandable(
-                    collapsed: collapsed,
-                    expanded: expanded,
-                    theme: const ExpandableThemeData(
-                        crossFadePoint: 0),
+        child: ScrollOnExpand(
+          scrollOnCollapse: false,
+          child: ExpandablePanel(
+            theme: const ExpandableThemeData(
+              headerAlignment: ExpandablePanelHeaderAlignment.center,
+              tapBodyToCollapse: true,
+            ),
+            header: Container(
+              height: 45,
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Icon(
+                    icons[element.key.data],
+                    size: 18,
                   ),
-                );
-              },
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Expanded(
+                    child: Text(
+                        '${element.key.value.toUpperCase()}  ${controller.getAmount(element.value)}'),
+                  ),
+                  FutureBuilder<double>(
+                      future: Get.find<ShopListController>()
+                          .getCategoryPrice(element.value),
+                      initialData: 0,
+                      builder: (context, snapshot) {
+                        return Text(
+                            !snapshot.hasData
+                                ? 'loading'
+                                : '€ ${(snapshot.data!).toStringAsFixed(2)}',
+                            style: context.theme.textTheme.bodyLarge!.copyWith(
+                                color: snapshot.data! > 30
+                                    ? context.theme.colorScheme.error
+                                    : null));
+                      })
+                ],
               ),
             ),
+            collapsed: Container(),
+            expanded: SizedBox(
+              height: element.value.length * 45,
+              child: ShopItemList(
+                list: element.value,
+                onItemSelected: controller.toggle,
+                onItemDismissed: controller.dropItem,
+              ),
+            ),
+            builder: (_, collapsed, expanded) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 4, right: 8, bottom: 10),
+                child: Expandable(
+                  collapsed: collapsed,
+                  expanded: expanded,
+                  theme: const ExpandableThemeData(crossFadePoint: 0),
+                ),
+              );
+            },
           ),
+        ),
+      ),
     );
   }
 }

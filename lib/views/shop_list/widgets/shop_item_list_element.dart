@@ -5,9 +5,11 @@ import 'package:supercharged/supercharged.dart';
 
 class ShopItemListElement extends StatefulWidget {
   final ShopItem item;
+  final String price;
   final ValueChanged<bool?>? onChanged;
 
-  const ShopItemListElement({Key? key, required this.item, this.onChanged})
+  const ShopItemListElement(
+      {Key? key, required this.item, this.onChanged, this.price = ''})
       : super(key: key);
 
   @override
@@ -32,22 +34,31 @@ class _ShopItemListElementState extends State<ShopItemListElement> {
               child: const CircularProgressIndicator(),
             )
           else
-            Checkbox(value: widget.item.completed, onChanged: (i){
-              setState(() {
-                loading = true;
-                widget.onChanged?.call(i);
-              });
-              Future.delayed(1.5.seconds, (){
-                setState(() {
-                  loading = false;
-                });
-              });
-            }),
+            Checkbox(
+                value: widget.item.completed,
+                onChanged: (i) {
+                  setState(() {
+                    loading = true;
+                    widget.onChanged?.call(i);
+                  });
+                  Future.delayed(1.5.seconds, () {
+                    setState(() {
+                      loading = false;
+                    });
+                  });
+                }),
           Expanded(
             child: Text(
               '${widget.item.name} x${widget.item.amount}',
               style: context.theme.textTheme.bodyLarge,
             ),
+          ),
+          Text(
+            widget.price,
+            style: context.theme.textTheme.bodyLarge!.copyWith(
+                color: (double.tryParse(widget.price) ?? 0) > 10
+                    ? context.theme.colorScheme.error
+                    : null),
           ),
         ],
       ),

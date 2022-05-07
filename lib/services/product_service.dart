@@ -26,13 +26,11 @@ class ProductService extends GetxService implements ProductServiceContract {
 
   @override
   Future<List<Product>> filter(String filter) async {
-
     // Create your query
     final parseQuery = QueryBuilder<Product>.or(Product(), [
       QueryBuilder<Product>(Product())
         ..whereEqualTo(keySearchCode, int.tryParse(filter) ?? filter.hashCode),
-      QueryBuilder<Product>(Product())
-        ..whereContains(keyName, filter),
+      QueryBuilder<Product>(Product())..whereContains(keyName, filter),
       QueryBuilder<Product>(Product())..whereContains(keyTag, filter),
       QueryBuilder<Product>(Product())..whereContains(keyCategory, filter),
     ])
@@ -50,15 +48,35 @@ class ProductService extends GetxService implements ProductServiceContract {
 
   @override
   Future<List<Product>> saveBulk(List<Product> productsToSave) async {
-     final listToReturn = List<Product>.empty(growable: true);
-     for(final product in productsToSave){
-        final response = await product.save();
-        if(response.success){
-          listToReturn.add(response.result);
-        } else {
-          throw Exception(response.error?.message);
-        }
-     }
-     return listToReturn;
+    final listToReturn = List<Product>.empty(growable: true);
+    for (final product in productsToSave) {
+      final response = await product.save();
+      if (response.success) {
+        listToReturn.add(response.result);
+      } else {
+        throw Exception(response.error?.message);
+      }
+    }
+    return listToReturn;
+  }
+
+  @override
+  Future<List<Product>> getAllByTagAndCategory(
+      String tag, String category) async {
+    // Create your query
+    final parseQuery = QueryBuilder<Product>(Product())
+      ..whereContains(keyTag, tag)
+      ..whereContains(keyCategory, category)
+      ..orderByDescending('createdAt');
+
+    // The query will resolve only after calling this method, retrieving
+    // an array of `Product`, if success
+    final apiResponse = await parseQuery.query<Product>();
+
+    if (apiResponse.success) {
+      return (apiResponse.results ?? <Product>[]) as List<Product>;
+    } else {
+      return Future.error(apiResponse.error!.message);
+    }
   }
 }
