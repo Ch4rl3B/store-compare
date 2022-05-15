@@ -6,6 +6,14 @@
 
 A new Flutter project.
 
+
+For running integration tests
+```
+flutter drive \
+  --driver=test_driver/e2e_test.dart \
+  -d web-server
+```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

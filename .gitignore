@@ -50,3 +50,4 @@ app.*.map.json
 codecov
 /coverage/
 /get_code.dart
+chromedriver
