@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class TestApp extends StatelessWidget {
   final Widget child;
 
-  const TestApp({Key? key, required this.child}) : super(key: key);
+  const TestApp({super.key, required this.child});
 
   // This widget is the root of your application.
   @override

@@ -7,7 +7,7 @@ import 'package:store_compare/views/home/widgets/product_list.dart';
 class ProductDetail extends GetView<HomeController> {
   final Product product;
 
-  const ProductDetail({Key? key, required this.product}) : super(key: key);
+  const ProductDetail({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {

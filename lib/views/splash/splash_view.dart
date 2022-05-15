@@ -4,7 +4,7 @@ import 'package:store_compare/views/splash/splash.dart';
 
 class SplashView extends GetView<SplashController> {
 
-  const SplashView({Key? key}) : super(key: key);
+  const SplashView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -10,12 +10,12 @@ class ProductListItem extends StatelessWidget {
   final IconData? iconData;
 
   const ProductListItem(
-      {Key? key,
+      {super.key,
       required this.product,
       this.onItemLongPress,
       this.onItemTap,
       this.iconData})
-      : super(key: key);
+     ;
 
   @override
   Widget build(BuildContext context) {

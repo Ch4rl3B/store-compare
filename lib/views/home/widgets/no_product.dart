@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 
 class NoProduct extends StatelessWidget {
-  const NoProduct({Key? key}) : super(key: key);
+  const NoProduct({super.key});
 
   @override
   Widget build(BuildContext context) {

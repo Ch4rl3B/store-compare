@@ -9,8 +9,8 @@ class ShopItemListElement extends StatefulWidget {
   final ValueChanged<bool?>? onChanged;
 
   const ShopItemListElement(
-      {Key? key, required this.item, this.onChanged, this.price = ''})
-      : super(key: key);
+      {super.key, required this.item, this.onChanged, this.price = ''})
+     ;
 
   @override
   State<ShopItemListElement> createState() => _ShopItemListElementState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoadingDialog extends StatelessWidget {
-  const LoadingDialog({Key? key}) : super(key: key);
+  const LoadingDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

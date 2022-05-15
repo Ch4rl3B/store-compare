@@ -7,7 +7,7 @@ import 'package:store_compare/views/shop_list/widgets/add_item_form.dart';
 import 'package:store_compare/views/shop_list/widgets/shop_item_list.dart';
 
 class ShopListView extends GetView<ShopListController> {
-  const ShopListView({Key? key}) : super(key: key);
+  const ShopListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class ShopListView extends GetView<ShopListController> {
           children: [
             Expanded(child: Container()),
             Obx(() {
-              controller.itemProducts.value;
+              controller.itemProducts.values;
               return FutureBuilder<double>(
                   future: controller.getTotalValue(),
                   initialData: 0,
@@ -51,13 +51,14 @@ class ShopListView extends GetView<ShopListController> {
                     return Text(
                         !snapshot.hasData
                             ? 'loading'
-                            : 'Estimado: € ${(snapshot.data!).toStringAsFixed(2)}',
+                            : 'Estimado: '
+                            '€ ${(snapshot.data!).toStringAsFixed(2)}',
                         style: context.theme.textTheme.bodyLarge!.copyWith(
                             color: snapshot.data! > 120
                                 ? context.theme.colorScheme.error
                                 : snapshot.data! > 80
-                                ? context.theme.colorScheme.secondary
-                                : null));
+                                    ? context.theme.colorScheme.secondary
+                                    : null));
                   });
             }),
             const SizedBox(
@@ -125,9 +126,10 @@ class ShopListView extends GetView<ShopListController> {
                   ),
                   Expanded(
                     child: Text(
-                        '${element.key.value.toUpperCase()}  ${controller.getAmount(element.value)}'),
+                        '${element.key.value.toUpperCase()} '
+                            '${controller.getAmount(element.value)}'),
                   ),
-                  FutureBuilder<double>(
+                  FutureBuilder<double?>(
                       future: Get.find<ShopListController>()
                           .getCategoryPrice(element.value),
                       initialData: 0,
@@ -135,7 +137,7 @@ class ShopListView extends GetView<ShopListController> {
                         return Text(
                             !snapshot.hasData
                                 ? 'loading'
-                                : '€ ${(snapshot.data!).toStringAsFixed(2)}',
+                                : '€ ${(snapshot.data??0).toStringAsFixed(2)}',
                             style: context.theme.textTheme.bodyLarge!.copyWith(
                                 color: snapshot.data! > 30
                                     ? context.theme.colorScheme.error
@@ -146,7 +148,7 @@ class ShopListView extends GetView<ShopListController> {
             ),
             collapsed: Container(),
             expanded: SizedBox(
-              height: element.value.length * 45,
+              height: element.value.length * 48,
               child: ShopItemList(
                 list: element.value,
                 onItemSelected: controller.toggle,

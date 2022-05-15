@@ -11,7 +11,7 @@ class AddItemForm extends StatelessWidget {
   final categories = Get.find<NomenclatorsServiceContract>()
       .nomenclators[Nomenclators.category];
 
-  AddItemForm({Key? key, required this.submit}) : super(key: key);
+  AddItemForm({super.key, required this.submit});
 
   @override
   Widget build(BuildContext context) {

@@ -11,11 +11,11 @@ class ShopItemList extends StatelessWidget {
   final Function(Nomenclator, int) onItemDismissed;
 
   const ShopItemList({
-    Key? key,
+    super.key,
     required this.list,
     required this.onItemSelected,
     required this.onItemDismissed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,52 +23,53 @@ class ShopItemList extends StatelessWidget {
         padding: const EdgeInsets.only(top: 12, left: 8, right: 8),
         itemExtent: 45,
         itemCount: list.length,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) => Dismissible(
-              key: ValueKey(list[index].objectId),
-              direction: DismissDirection.endToStart,
-              confirmDismiss: (direction) async {
-                if (direction == DismissDirection.endToStart) {
-                  return Get.defaultDialog<bool>(
-                      title: 'Eliminar item',
-                      middleText: 'Esta acción no se puede deshacer',
-                      textConfirm: 'Eliminar',
-                      textCancel: 'Mejor no',
-                      onConfirm: () {
-                        Get.back(result: true);
-                      },
-                      onCancel: () {
-                        Get.back(result: false);
-                      });
-                }
-                return false;
-              },
-              onDismissed: (direction) {
-                if (direction == DismissDirection.endToStart) {
-                  onItemDismissed.call(list[index].category, index);
-                }
-              },
-              background: Container(
-                color: context.theme.errorColor,
-                alignment: Alignment.centerRight,
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                ),
-              ),
-              child: FutureBuilder<double>(
-                  future:
-                      Get.find<ShopListController>().getItemPrice(list[index]),
-                  initialData: 0,
-                  builder: (context, snapshot) {
-                    return ShopItemListElement(
-                      item: list[index],
-                      price: !snapshot.hasData
-                          ? 'loading'
-                          : '€ ${snapshot.data!.toStringAsFixed(2)}',
-                      onChanged: (_) =>
-                          onItemSelected(list[index].category, index),
-                    );
-                  }),
-            ));
+          key: ValueKey(list[index].objectId),
+          direction: DismissDirection.endToStart,
+          confirmDismiss: (direction) async {
+            if (direction == DismissDirection.endToStart) {
+              return Get.defaultDialog<bool>(
+                  title: 'Eliminar item',
+                  middleText: 'Esta acción no se puede deshacer',
+                  textConfirm: 'Eliminar',
+                  textCancel: 'Mejor no',
+                  onConfirm: () {
+                    Get.back(result: true);
+                  },
+                  onCancel: () {
+                    Get.back(result: false);
+                  });
+            }
+            return false;
+          },
+          onDismissed: (direction) {
+            if (direction == DismissDirection.endToStart) {
+              onItemDismissed.call(list[index].category, index);
+            }
+          },
+          background: Container(
+            color: context.theme.errorColor,
+            alignment: Alignment.centerRight,
+            child: const Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          ),
+          child: FutureBuilder<double>(
+              future:
+              Get.find<ShopListController>().getItemPrice(list[index]),
+              initialData: 0,
+              builder: (context, snapshot) {
+                return ShopItemListElement(
+                  item: list[index],
+                  price: !snapshot.hasData
+                      ? 'loading'
+                      : '€ ${snapshot.data!.toStringAsFixed(2)}',
+                  onChanged: (_) =>
+                      onItemSelected(list[index].category, index),
+                );
+              }),
+        ));
   }
 }

@@ -10,7 +10,7 @@ import 'package:store_compare/views/home/widgets/product_list.dart';
 import 'package:store_compare/views/shop_list/shop_list.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {

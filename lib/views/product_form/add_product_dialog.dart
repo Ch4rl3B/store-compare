@@ -7,7 +7,7 @@ import 'package:store_compare/helpers/num_value_accesor.dart';
 import 'package:store_compare/views/product_form/add_product_dialog_controller.dart';
 
 class AddProductDialog extends GetView<AddProductDialogController> {
-  const AddProductDialog({Key? key}) : super(key: key);
+  const AddProductDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

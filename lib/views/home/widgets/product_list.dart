@@ -13,13 +13,13 @@ class ProductList extends GetView<HomeController> {
   final VoidCallback? onDoubleTap;
 
   const ProductList(
-      {Key? key,
+      {super.key,
       required this.products,
       required this.onRefresh,
       this.onItemTap,
       this.onDoubleTap,
       this.onItemLongPress})
-      : super(key: key);
+     ;
 
   @override
   Widget build(BuildContext context) {
