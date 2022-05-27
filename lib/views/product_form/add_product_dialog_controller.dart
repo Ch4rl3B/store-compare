@@ -53,7 +53,7 @@ class AddProductDialogController extends GetxController {
   @override
   void onInit() {
     initForm();
-    if (bindedProduct != null) {
+    if (bindedProduct != null && bindedProduct!.tag != '') {
       form.control(keyName).markAsDisabled();
       form.control(keyCategory).markAsDisabled();
     }

@@ -19,8 +19,9 @@ class ProductDetail extends GetView<HomeController> {
             leading: SizedBox(
               width: 30,
               child: Center(
-                  child: Icon(controller.getCategoryIcon(product.category),
-                      size: 35,
+                  child: Image.asset(controller.getCategoryIcon(product.category),
+                      width: 35,
+                      height: 35,
                       color: product.isPrimary
                           ? context.theme.toggleableActiveColor
                           : null)),

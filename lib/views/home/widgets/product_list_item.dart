@@ -7,7 +7,7 @@ class ProductListItem extends StatelessWidget {
   final Product product;
   final VoidCallback? onItemTap;
   final VoidCallback? onItemLongPress;
-  final IconData? iconData;
+  final String? iconData;
 
   const ProductListItem(
       {super.key,
@@ -29,11 +29,9 @@ class ProductListItem extends StatelessWidget {
           children: [
             SizedBox(
               width: 56,
-              child: Icon(iconData ?? icons[''],
-                  size: 40,
-                  color: product.isPrimary
-                      ? context.theme.toggleableActiveColor
-                      : context.theme.disabledColor),
+              child: Image.asset(iconData ?? images['bug']!,
+                  width: 40,
+                  height: 40),
             ),
             Expanded(
                 child: Column(

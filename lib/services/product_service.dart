@@ -12,6 +12,7 @@ class ProductService extends GetxService implements ProductServiceContract {
   Future<List<Product>> fetchAll() async {
     // Create your query
     final parseQuery = QueryBuilder<Product>(Product())
+      ..setLimit(1000)
       ..orderByDescending('createdAt');
     // The query will resolve only after calling this method, retrieving
     // an array of `Product`, if success

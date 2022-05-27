@@ -150,7 +150,9 @@ class HomeController extends GetxController
 
   void showDialog() {
     Get.put(AddProductDialogController(this,
-        bindedProduct: products.length == 1 ? products.first : null));
+        bindedProduct: products.length == 1
+            ? products.first
+            : Product.fromName(searchController.text)));
     Get.dialog(const AddProductDialog(),
             barrierDismissible: false, useSafeArea: true)
         .then((_) {
@@ -246,9 +248,12 @@ class HomeController extends GetxController
     });
   }
 
-  IconData? getCategoryIcon(String category) {
+  String getCategoryIcon(String category) {
     final categories = nomenclatorsService.nomenclators[Nomenclators.category];
-    return icons[categories?.firstWhere((element) => element.value == category,
-        orElse: Nomenclator.new).data ?? ''];
+    return images[categories
+            ?.firstWhere((element) => element.value == category,
+                orElse: Nomenclator.new)
+            .data ??
+        'bug']!;
   }
 }

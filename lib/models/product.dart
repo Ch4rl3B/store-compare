@@ -68,4 +68,19 @@ class Product extends ParseObject implements ParseCloneable {
       ..shop= objectData[keyShop]
     ;
   }
+
+
+  factory Product.fromName(String name) {
+    return Product()
+      ..productName = name
+      ..tag = ''
+      ..price = 0.00
+      ..realPrice = 0.00
+      ..isPrimary = false
+      ..isOffer = false
+      ..category = 'alimento'
+      ..searchCode = name.hashCode
+      ..shop= ''
+    ;
+  }
 }

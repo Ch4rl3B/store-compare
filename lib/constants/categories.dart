@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:store_compare/assets/assets.gen.dart';
 
 
 final Map<String, IconData> icons = {
@@ -87,4 +88,18 @@ final Map<String, IconData> icons = {
   'subway': LineAwesomeIcons.subway,
   'snowflake': LineAwesomeIcons.snowflake,
   '': LineAwesomeIcons.ban
+};
+
+
+final Map<String, String> images = {
+  'hamburger' : Assets.png.shoppingBag.path,
+  'heartbeat' : Assets.png.heartbeat.path,
+  'drumstick_with_bite_taken_out' : Assets.png.ham.path,
+  'snowflake' : Assets.png.ice.path,
+  'cookie_bite' : Assets.png.donut.path,
+  'bath' : Assets.png.toothbrush.path,
+  'broom' : Assets.png.detergent.path,
+  'bug' : Assets.png.ladybug.path,
+  'fruit_apple' : Assets.png.vegetable.path,
+  'cocktail' : Assets.png.softDrink.path,
 };
