@@ -43,6 +43,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
+              automaticallyImplyLeading: false,
               actions: [
                 Visibility(
                   visible: [

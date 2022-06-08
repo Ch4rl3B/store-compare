@@ -18,8 +18,7 @@ class ProductList extends GetView<HomeController> {
       required this.onRefresh,
       this.onItemTap,
       this.onDoubleTap,
-      this.onItemLongPress})
-     ;
+      this.onItemLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +32,13 @@ class ProductList extends GetView<HomeController> {
               itemExtent: 75,
               children: products
                   .fold<Map<DateTime, List<Product>>>({}, (map, product) {
-                    if (!map.containsKey(product.createdAt!.endOfDay)) {
-                      map[product.createdAt!.endOfDay] = <Product>[];
+                    if (!map.containsKey(
+                        (product.shopDate ?? DateTime(2020, 5, 5)).startOfDay)) {
+                      map[(product.shopDate ?? DateTime(2020, 5, 5)).startOfDay] =
+                          <Product>[];
                     }
-                    map[product.createdAt!.endOfDay]!.add(product);
+                    map[(product.shopDate ?? DateTime(2020, 5, 5)).startOfDay]!
+                        .add(product);
                     return map;
                   })
                   .entries

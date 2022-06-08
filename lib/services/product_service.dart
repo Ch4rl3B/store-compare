@@ -12,14 +12,15 @@ class ProductService extends GetxService implements ProductServiceContract {
   Future<List<Product>> fetchAll() async {
     // Create your query
     final parseQuery = QueryBuilder<Product>(Product())
+      ..whereNotEqualTo(keyShopDate, null)
       ..setLimit(1000)
-      ..orderByDescending('createdAt');
+      ..orderByDescending(keyShopDate);
     // The query will resolve only after calling this method, retrieving
     // an array of `Product`, if success
     final apiResponse = await parseQuery.query<Product>();
 
-    if (apiResponse.success && apiResponse.results != null) {
-      return apiResponse.results! as List<Product>;
+    if (apiResponse.success) {
+      return (apiResponse.results ?? <Product>[]) as List<Product>;
     } else {
       return Future.error(apiResponse.error!.message);
     }
@@ -35,7 +36,7 @@ class ProductService extends GetxService implements ProductServiceContract {
       QueryBuilder<Product>(Product())..whereContains(keyTag, filter),
       QueryBuilder<Product>(Product())..whereContains(keyCategory, filter),
     ])
-      ..orderByDescending('createdAt');
+      ..orderByDescending(keyShopDate);
     // The query will resolve only after calling this method, retrieving
     // an array of `Product`, if success
     final apiResponse = await parseQuery.query<Product>();
@@ -78,6 +79,26 @@ class ProductService extends GetxService implements ProductServiceContract {
       return (apiResponse.results ?? <Product>[]) as List<Product>;
     } else {
       return Future.error(apiResponse.error!.message);
+    }
+  }
+
+  @override
+  Future<List<String>> getTags(String filter) async {
+    // Create your query
+    final parseQuery = QueryBuilder<Product>(Product())
+      ..whereContains(keyTag, filter)
+      ..orderByAscending(keyTag);
+    // The query will resolve only after calling this method, retrieving
+    // an array of `Product`, if success
+    final apiResponse = await parseQuery.query<Product>();
+
+    if (apiResponse.success) {
+      return ((apiResponse.results ?? <Product>[]) as List<Product>)
+          .map((e) => '${e.tag} >> ${e.shop.split(' ')[0]}')
+          .toSet()
+          .toList();
+    } else {
+      return <String>[];
     }
   }
 }

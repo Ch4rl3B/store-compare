@@ -19,7 +19,8 @@ class ProductDetail extends GetView<HomeController> {
             leading: SizedBox(
               width: 30,
               child: Center(
-                  child: Image.asset(controller.getCategoryIcon(product.category),
+                  child: Image.asset(
+                      controller.getCategoryIcon(product.category),
                       width: 35,
                       height: 35,
                       color: product.isPrimary
@@ -95,10 +96,7 @@ class ProductDetail extends GetView<HomeController> {
             child: ProductList(
               onRefresh: () async =>
                   controller.filter(controller.searchController.text),
-              products: controller.filtered
-                  .where((element) => element == product)
-                  .toList()
-                ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
+              products: controller.getProductFilteredList(product),
             ),
           ),
         ],

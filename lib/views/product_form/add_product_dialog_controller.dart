@@ -36,6 +36,7 @@ class AddProductDialogController extends GetxController {
     keyIsPrimary: FormControl<bool>(value: false),
     keyIsOffer: FormControl<bool>(value: false),
     keyShop: FormControl<String>(),
+    keyShopDate: FormControl<DateTime>(validators: [Validators.required]),
   });
 
   List<Nomenclator> get nomenclators =>
@@ -48,7 +49,7 @@ class AddProductDialogController extends GetxController {
       nomenclatorsService.nomenclators[Nomenclators.category]
           ?.where((value) => value.active)
           .toList() ??
-          [];
+      [];
 
   @override
   void onInit() {

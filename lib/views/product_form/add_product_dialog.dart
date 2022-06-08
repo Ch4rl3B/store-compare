@@ -1,5 +1,7 @@
+import 'package:dart_date/dart_date.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/constants/keys.dart';
@@ -58,6 +60,24 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                 ),
               ],
             ),
+            ReactiveDatePicker(
+                key: const ValueKey(keyShopDate),
+                formControlName: keyShopDate,
+                errorInvalidText: 'El campo no debe estar vacío',
+                builder: (context, picker, child) {
+                  return ReactiveTextField(
+                    formControlName: keyShopDate,
+                    onTap: picker.showPicker,
+                    decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.date_range),
+                        label: Text('Fecha de la Compra')),
+                    valueAccessor: DateTimeValueAccessor(
+                        dateTimeFormat: DateFormat('dd.MM.yyyy')),
+                    readOnly: true,
+                  );
+                },
+                firstDate: DateTime(2022, 5, 27),
+                lastDate: DateTime.now().addDays(1)),
             ReactiveTextField<String>(
               key: const ValueKey(keyName),
               formControlName: keyName,

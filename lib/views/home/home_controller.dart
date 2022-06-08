@@ -240,7 +240,8 @@ class HomeController extends GetxController
   }
 
   void onItemLongPress(Product? p1) {
-    Get.put(AddProductDialogController(this, bindedProduct: p1));
+    Get.put(AddProductDialogController(this,
+        bindedProduct: p1));
     Get.dialog(const AddProductDialog(),
             barrierDismissible: false, useSafeArea: true)
         .then((_) {
@@ -255,5 +256,17 @@ class HomeController extends GetxController
                 orElse: Nomenclator.new)
             .data ??
         'bug']!;
+  }
+
+  List<Product> getProductFilteredList(Product product) {
+    var list = filtered
+        .where((element) => element == product)
+        .toList();
+    if(list.isNotEmpty){
+      return list..sort((a, b) => (b.shopDate ?? DateTime(1990))
+          .compareTo(a.shopDate ?? DateTime(1990)));
+    } else {
+      return [];
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dart_date/dart_date.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
 
@@ -47,6 +48,10 @@ class Product extends ParseObject implements ParseCloneable {
   set shop(String shop) =>
       set<String>(keyShop, shop);
 
+  DateTime? get shopDate => get<DateTime?>(keyShopDate);
+  set shopDate(DateTime? shopDate) =>
+      set<DateTime?>(keyShopDate, shopDate);
+
   @override
   bool operator ==(Object other) {
     return (other is Product) && productName == other.productName;
@@ -66,6 +71,7 @@ class Product extends ParseObject implements ParseCloneable {
       ..category = objectData[keyCategory]
       ..searchCode = objectData[keyName].hashCode
       ..shop= objectData[keyShop]
+      ..shopDate=(objectData[keyShopDate] as DateTime).addHours(12)
     ;
   }
 

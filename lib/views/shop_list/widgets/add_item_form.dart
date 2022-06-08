@@ -1,10 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:reactive_raw_autocomplete/reactive_raw_autocomplete.dart';
 import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/models/nomenclator.dart';
 import 'package:store_compare/services/contracts.dart';
+
+class _Option {
+  final String value;
+  final bool downloaded;
+
+  _Option(this.value, {this.downloaded = false});
+
+  @override
+  String toString() => value;
+}
 
 class AddItemForm extends StatelessWidget {
   final ValueChanged<Map<String, dynamic>> submit;
@@ -29,15 +42,17 @@ class AddItemForm extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
-                        ReactiveTextField<String>(
-                          validationMessages: (control) => {
-                            ValidationMessage.required:
-                                'El campo no debe estar vacío'
-                          },
-                          decoration:
-                              const InputDecoration(label: Text('Item')),
-                          formControlName: keyItemName,
-                        ),
+                        ReactiveRawAutocomplete<String, _Option>(
+                            formControlName: keyItemName,
+                            validationMessages: (control) => {
+                              ValidationMessage.required:
+                              'El campo no debe estar vacío'
+                            },
+                            decoration:
+                            const InputDecoration(label: Text('Item')),
+                            valueAccessor: _ValueAccessor(),
+                            optionsBuilder: _optionsBuilder,
+                            optionsViewBuilder: _optionsViewBuilder),
                         const SizedBox(
                           height: 8,
                         ),
@@ -107,5 +122,85 @@ class AddItemForm extends StatelessWidget {
                 ),
               ],
             ));
+  }
+
+  FutureOr<Iterable<_Option>> _optionsBuilder(
+      TextEditingValue textEditingValue) async {
+    final donwloaded =
+        await Get.find<ProductServiceContract>().getTags(textEditingValue.text);
+
+    return donwloaded.isNotEmpty
+        ? donwloaded.map((e) => _Option(e, downloaded: true))
+        : [_Option(textEditingValue.text)];
+  }
+
+  Widget _optionsViewBuilder(BuildContext context,
+      AutocompleteOnSelected<_Option> onSelected, Iterable<_Option> options) {
+    final sController = ScrollController();
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 24),
+        child: Material(
+          elevation: 4,
+          child: SizedBox(
+            height: options.length > 4 ? 235 : options.length * 58,
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: RawScrollbar(
+                controller: sController,
+                thumbVisibility: true,
+                trackVisibility: true,
+                thumbColor: Colors.greenAccent,
+                radius: const Radius.circular(20),
+                thickness: 10,
+                child: ListView.builder(
+                  controller: sController,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: options.length,
+                  itemBuilder: (BuildContext ctx, int index) {
+                    final option = options.elementAt(index);
+                    return GestureDetector(
+                      onTap: () {
+                        onSelected(option);
+                      },
+                      child: ListTile(
+                        leading: Container(
+                          child: option.downloaded
+                              ? const Icon(
+                                  Icons.cloud_download,
+                                  color: Colors.greenAccent,
+                                )
+                              : Icon(
+                                  Icons.fiber_new_rounded,
+                                  color: context.theme.errorColor,
+                                ),
+                        ),
+                        title: Text(
+                          option.value,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ValueAccessor extends ControlValueAccessor<String, _Option> {
+  @override
+  _Option? modelToViewValue(String? modelValue) {
+    return modelValue != null ? _Option(modelValue) : null;
+  }
+
+  @override
+  String? viewToModelValue(_Option? viewValue) {
+    return viewValue?.value.split(' >> ')[0];
   }
 }

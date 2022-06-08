@@ -9,6 +9,7 @@ abstract class ProductServiceContract {
   Future<List<Product>> filter(String filter);
   Future<List<Product>> getAllByTagAndCategory(String tag, String category);
   Future<List<Product>> saveBulk(List<Product> productsToSave);
+  Future<List<String>> getTags(String filter);
 }
 
 abstract class ShopItemContract {

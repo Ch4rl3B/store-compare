@@ -14,6 +14,7 @@ const keyIsPrimary = 'isPrimary';
 const keyIsOffer = 'isOffer';
 const keySearchCode = 'searchCode';
 const keyShop = 'shop';
+const keyShopDate = 'shopDate';
 
 //ShopItem
 const keyItemName = 'name';
