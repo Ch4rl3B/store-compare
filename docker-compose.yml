@@ -1,0 +1,9 @@
+services:
+  frontend:
+    image: ch4rli3b.cu.de/store-compare:1.0.0
+    ports:
+      - "5555:80"
+
+configs:
+  httpd-config:
+    external: true
