@@ -259,7 +259,7 @@ class HomeController extends GetxController
   }
 
   List<Product> getProductFilteredList(Product product) {
-    var list = filtered
+    final list = filtered
         .where((element) => element == product)
         .toList();
     if(list.isNotEmpty){

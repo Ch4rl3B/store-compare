@@ -22,9 +22,11 @@ const keyItemAmount = 'amount';
 const keyItemCompleted = 'completed';
 const keyItemCategory = 'category';
 
-
 //Nomenclator
 const keyNomenclatorType = 'type';
 const keyNomenclatorValue = 'value';
 const keyNomenclatorActive = 'active';
 const keyNomenclatorData = 'data';
+
+//Secret
+const keySecretPassword = 'Ch4rlott3!!';

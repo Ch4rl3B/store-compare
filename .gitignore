@@ -51,3 +51,4 @@ codecov
 /coverage/
 /get_code.dart
 chromedriver
+/generate_key.dart

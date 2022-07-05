@@ -198,7 +198,7 @@ packages:
     source: hosted
     version: "3.0.1"
   crypto:
-    dependency: "direct overridden"
+    dependency: "direct dev"
     description:
       name: crypto
       url: "https://pub.dartlang.org"

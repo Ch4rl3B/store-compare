@@ -130,7 +130,7 @@ class HomeView extends GetView<HomeController> {
       case HomeStates.shopList:
         return const ShopListView();
       case HomeStates.nomenclators:
-        return Container(color: Colors.red,);
+        return const ColoredBox(color: Colors.red,);
     }
   }
 }

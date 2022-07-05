@@ -33,9 +33,10 @@ class ProductList extends GetView<HomeController> {
               children: products
                   .fold<Map<DateTime, List<Product>>>({}, (map, product) {
                     if (!map.containsKey(
-                        (product.shopDate ?? DateTime(2020, 5, 5)).startOfDay)) {
-                      map[(product.shopDate ?? DateTime(2020, 5, 5)).startOfDay] =
-                          <Product>[];
+                        (product.shopDate ?? DateTime(2020, 5, 5))
+                            .startOfDay)) {
+                      map[(product.shopDate ?? DateTime(2020, 5, 5))
+                          .startOfDay] = <Product>[];
                     }
                     map[(product.shopDate ?? DateTime(2020, 5, 5)).startOfDay]!
                         .add(product);
