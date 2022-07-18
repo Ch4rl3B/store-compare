@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:store_compare/constants/categories.dart';
 import 'package:store_compare/constants/keys.dart';
+import 'package:store_compare/constants/paths.dart';
 import 'package:store_compare/helpers/extensions.dart';
 import 'package:store_compare/models/nomenclator.dart';
+import 'package:store_compare/services/auth_service.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/views/home/home_states.dart';
 import 'package:store_compare/views/home/widgets/loading_dialog.dart';
@@ -31,7 +33,15 @@ class HomeController extends GetxController
   @override
   void onInit() {
     change(HomeStates.loading, status: RxStatus.loading());
-    loadData();
+    if (Get.find<AuthService>().isUnlocked) {
+      loadData();
+    } else {
+      Future.delayed(1.seconds, () {
+        Get
+          ..offNamed(Paths.auth)
+          ..delete<HomeController>();
+      });
+    }
     super.onInit();
   }
 
@@ -240,8 +250,7 @@ class HomeController extends GetxController
   }
 
   void onItemLongPress(Product? p1) {
-    Get.put(AddProductDialogController(this,
-        bindedProduct: p1));
+    Get.put(AddProductDialogController(this, bindedProduct: p1));
     Get.dialog(const AddProductDialog(),
             barrierDismissible: false, useSafeArea: true)
         .then((_) {
@@ -259,12 +268,11 @@ class HomeController extends GetxController
   }
 
   List<Product> getProductFilteredList(Product product) {
-    final list = filtered
-        .where((element) => element == product)
-        .toList();
-    if(list.isNotEmpty){
-      return list..sort((a, b) => (b.shopDate ?? DateTime(1990))
-          .compareTo(a.shopDate ?? DateTime(1990)));
+    final list = filtered.where((element) => element == product).toList();
+    if (list.isNotEmpty) {
+      return list
+        ..sort((a, b) => (b.shopDate ?? DateTime(1990))
+            .compareTo(a.shopDate ?? DateTime(1990)));
     } else {
       return [];
     }

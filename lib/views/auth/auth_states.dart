@@ -1,0 +1,4 @@
+
+enum AuthStates {
+   init, wrong
+}

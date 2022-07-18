@@ -9,6 +9,10 @@ class AppRoutes {
       Get.put(SplashController());
       return const SplashView();
     },
+    Paths.auth: (context) {
+      Get.put(AuthController());
+      return const AuthView();
+    },
     Paths.home: (context) {
       Get
         ..put(HomeController())

@@ -9,6 +9,8 @@ const authString =
 
 class AuthService extends GetxService {
 
+  bool _unlocked = false;
+
   Future<bool> authenticate(String code) async {
     final key = utf8.encode(keySecretPassword);
     final bytes = utf8.encode(code);
@@ -16,6 +18,8 @@ class AuthService extends GetxService {
     final hmacSha256 = Hmac(sha256, key);
     final digest = hmacSha256.convert(bytes);
 
-    return digest.toString().hashCode == authString.hashCode;
+    return _unlocked = digest.toString().hashCode == authString.hashCode;
   }
+
+  bool get isUnlocked => _unlocked;
 }

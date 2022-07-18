@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
 import 'package:store_compare/constants/paths.dart';
+import 'package:store_compare/services/auth_service.dart';
 import 'package:store_compare/services/nomenclator_service.dart';
 import 'package:store_compare/services/product_service.dart';
 import 'package:store_compare/services/shop_item_service.dart';
@@ -33,7 +34,8 @@ class SplashController extends GetxController with StateMixin<SplashStates> {
     ]);
     Get
       ..put<ProductServiceContract>(ProductService())
-      ..put<ShopItemContract>(ShopItemService());
+      ..put<ShopItemContract>(ShopItemService())
+      ..put<AuthService>(AuthService());
 
     await fetchData();
   }
