@@ -2,11 +2,6 @@
 /// *****************************************************
 ///  FlutterGen
 /// *****************************************************
-
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
-
 import 'package:flutter/widgets.dart';
 
 class $LibGen {
@@ -14,6 +9,9 @@ class $LibGen {
 
   /// File path: lib/shop.png
   AssetGenImage get shop => const AssetGenImage('lib/shop.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [shop];
 }
 
 class $AssetsPngGen {
@@ -64,6 +62,23 @@ class $AssetsPngGen {
   /// File path: assets/png/vegetable.png
   AssetGenImage get vegetable =>
       const AssetGenImage('assets/png/vegetable.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        burger,
+        detergent,
+        donut,
+        groceries,
+        ham,
+        heartbeat,
+        ice,
+        ladybug,
+        ramen,
+        shoppingBag,
+        softDrink,
+        toothbrush,
+        vegetable
+      ];
 }
 
 class Assets {
@@ -85,7 +100,7 @@ class AssetGenImage {
     ImageErrorWidgetBuilder? errorBuilder,
     String? semanticLabel,
     bool excludeFromSemantics = false,
-    double? scale = 1.0,
+    double? scale,
     double? width,
     double? height,
     Color? color,
@@ -131,5 +146,9 @@ class AssetGenImage {
     );
   }
 
+  ImageProvider provider() => AssetImage(_assetName);
+
   String get path => _assetName;
+
+  String get keyName => _assetName;
 }

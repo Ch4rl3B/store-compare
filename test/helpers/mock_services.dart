@@ -13,46 +13,47 @@ class MockProductService extends Mock implements ProductServiceContract {
   @override
   Future<List<Product>> fetchAll() async =>
       super.noSuchMethod(Invocation.method(#fetchAll, []),
-          returnValue: Future.value(generateProducts()));
+          returnValue: Future.value(generateProducts())) as List<Product>;
 
   @override
   Future<List<Product>> filter(String? filter) async =>
       super.noSuchMethod(Invocation.method(#filter, [filter]),
-          returnValue: Future.value(generateProducts()));
+          returnValue: Future.value(generateProducts())) as List<Product>;
 
   @override
-  Future<List<Product>> saveBulk(List<Product>? productsToSave) =>
+  Future<List<Product>> saveBulk(List<Product>? productsToSave) async =>
       super.noSuchMethod(Invocation.method(#saveBulk, [productsToSave]),
-          returnValue: Future.value(
-              generateProducts(amount: productsToSave?.length ?? 10)));
+              returnValue: Future.value(
+                  generateProducts(amount: productsToSave?.length ?? 10)))
+          as List<Product>;
 }
 
 class MockNomenclatorsService extends Mock
     implements NomenclatorsServiceContract {
-
   @override
   Map<String, List<Nomenclator>> nomenclators = {
-    'SHOP' : generateNomenclators(amount: 5)
+    'SHOP': generateNomenclators(amount: 5)
   };
 
   @override
-  Future<List<Nomenclator>> fetchAll() async =>
-      super.noSuchMethod(Invocation.method(#fetchAll, []),
-          returnValue: Future.value(generateNomenclators()));
+  Future<List<Nomenclator>> fetchAll() async => super.noSuchMethod(
+      Invocation.method(#fetchAll, []),
+      returnValue: Future.value(generateNomenclators())) as List<Nomenclator>;
 
   @override
   Future<Nomenclator> save(Nomenclator? item) async =>
       super.noSuchMethod(Invocation.method(#save, []),
-          returnValue: Future.value(getDummyNomenclator()));
+          returnValue: Future.value(getDummyNomenclator())) as Nomenclator;
 
   @override
   Future<bool> toggle(Nomenclator? itemToSave) async =>
       super.noSuchMethod(Invocation.method(#toggle, []),
-          returnValue: Future.value(true));
+          returnValue: Future.value(true)) as bool;
 
   @override
-  Future<void> delete(Nomenclator? itemToSave) async =>
-      super.noSuchMethod(Invocation.method(#fetchAll, []),);
+  Future<void> delete(Nomenclator? itemToSave) async => super.noSuchMethod(
+        Invocation.method(#fetchAll, []),
+      );
 }
 
 Future<void> setupParseInstance() async {

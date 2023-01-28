@@ -27,7 +27,7 @@ class ShopItemService extends GetxService implements ShopItemContract {
   Future<ShopItem> save(ShopItem itemToSave) async {
     final response = await itemToSave.save();
     if (response.success) {
-      return response.result;
+      return response.result as ShopItem;
     } else {
       throw Exception(response.error?.message);
     }
@@ -46,9 +46,9 @@ class ShopItemService extends GetxService implements ShopItemContract {
 
   @override
   Future<void> delete(ShopItem itemToDelete) async {
-     final response = await itemToDelete.delete();
-     if(response.error != null){
-       throw Exception(response.error!.message);
-     }
+    final response = await itemToDelete.delete();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
   }
 }

@@ -41,13 +41,12 @@ class Nomenclator extends ParseObject implements ParseCloneable {
 
   factory Nomenclator.fromMap(Map<String, dynamic> objectData) {
     return Nomenclator()
-      ..type = objectData[keyNomenclatorType]
-      ..value = objectData[keyNomenclatorValue]
-      ..active = objectData[keyNomenclatorActive]
-      ..data = objectData[keyNomenclatorData];
+      ..type = objectData[keyNomenclatorType] as String
+      ..value = objectData[keyNomenclatorValue] as String
+      ..active = objectData[keyNomenclatorActive] as bool
+      ..data = objectData[keyNomenclatorData] as String;
   }
 }
-
 
 class Nomenclators {
   static String shop = 'SHOP';

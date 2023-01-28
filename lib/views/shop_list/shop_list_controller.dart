@@ -41,7 +41,7 @@ class ShopListController extends GetxController {
   Future<void> addNewItem(Map<String, dynamic> data) async {
     final item =
         await shopItemService.save(ShopItem.fromMap(data)).catchError((error) {
-      Get.context?.saveError(error);
+      Get.context?.saveError(error.toString());
     });
 
     if (!itemMap.containsKey(item.category)) {

@@ -1,0 +1,6 @@
+ignore:
+  - "*.g.dart"
+  - "*.gr.dart"
+  - "lib/generated"
+  - "lib/gen"
+  - "**/categories.dart"

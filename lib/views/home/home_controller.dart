@@ -130,14 +130,14 @@ class HomeController extends GetxController
 
     if (list.isNotEmpty) {
       // Count occurrences of each item
-      final folded = list.fold({}, (Map acc, num curr) {
+      final folded = list.fold(<num, int>{}, (Map<num, int> acc, num curr) {
         acc[curr] = (acc[curr] ?? 0) + 1;
         return acc;
       });
 
       // Sort the keys by its occurrences
       final sortedKeys = folded.keys.toList()
-        ..sort((a, b) => folded[b].compareTo(folded[a]));
+        ..sort((a, b) => folded[b]!.compareTo(folded[a]!));
 
       return sortedKeys.first.toStringAsFixed(2);
     }
@@ -173,7 +173,7 @@ class HomeController extends GetxController
   @override
   Future<void> addProduct(Map<String, dynamic> formData) async {
     debugPrint(formData.toString());
-    final amount = formData.remove(keyAmount);
+    final amount = formData.remove(keyAmount) as int;
     final productsToSave =
         List.generate(amount, (index) => Product.fromMap(formData));
     unawaited(Get.dialog(const LoadingDialog(), barrierDismissible: true));

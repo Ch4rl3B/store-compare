@@ -44,12 +44,12 @@ class AddItemForm extends StatelessWidget {
                       children: [
                         ReactiveRawAutocomplete<String, _Option>(
                             formControlName: keyItemName,
-                            validationMessages: (control) => {
-                              ValidationMessage.required:
-                              'El campo no debe estar vacío'
+                            validationMessages: {
+                              ValidationMessage.required: (control) =>
+                                  'El campo no debe estar vacío'
                             },
                             decoration:
-                            const InputDecoration(label: Text('Item')),
+                                const InputDecoration(label: Text('Item')),
                             valueAccessor: _ValueAccessor(),
                             optionsBuilder: _optionsBuilder,
                             optionsViewBuilder: _optionsViewBuilder),
@@ -81,10 +81,10 @@ class AddItemForm extends StatelessWidget {
                                               ),
                                             ))
                                         .toList(),
-                                    validationMessages: (control) => {
-                                          ValidationMessage.required:
-                                              'Requerido'
-                                        },
+                                    validationMessages: {
+                                      ValidationMessage.required: (control) =>
+                                          'Requerido'
+                                    },
                                     decoration: const InputDecoration(
                                         label: Text('Categoría')))),
                             const SizedBox(
@@ -93,8 +93,9 @@ class AddItemForm extends StatelessWidget {
                             Expanded(
                                 child: ReactiveTextField<int>(
                               formControlName: keyItemAmount,
-                              validationMessages: (control) =>
-                                  {ValidationMessage.min: '+ de 1'},
+                              validationMessages: {
+                                ValidationMessage.min: (control) => '+ de 1'
+                              },
                               decoration: const InputDecoration(
                                   label: Text('Cantidad')),
                             )),

@@ -3,7 +3,6 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:store_compare/constants/keys.dart';
 
 class Product extends ParseObject implements ParseCloneable {
-
   Product() : super('Products');
   Product.clone() : this();
 
@@ -13,44 +12,43 @@ class Product extends ParseObject implements ParseCloneable {
   Product clone(Map<String, dynamic> map) => Product.clone()..fromJson(map);
 
   String get productName => get<String>(keyName)!;
-  set productName(String productName) =>
-      set<String>(keyName, productName);
+  set productName(String productName) => set<String>(keyName, productName);
 
   num get price => get<num>(keyPrice)!;
-  set price(num price) =>
-      set<num>(keyPrice, price);
+
+  set price(num price) => set<num>(keyPrice, price);
 
   num get realPrice => get<num>(keyRealPrice)!;
-  set realPrice(num realPrice) =>
-      set<num>(keyRealPrice, realPrice);
+
+  set realPrice(num realPrice) => set<num>(keyRealPrice, realPrice);
 
   String get category => get<String>(keyCategory)!;
-  set category(String category) =>
-      set<String>(keyCategory, category);
+
+  set category(String category) => set<String>(keyCategory, category);
 
   bool get isPrimary => get<bool>(keyIsPrimary)!;
-  set isPrimary(bool? isPrimary) =>
-      set<bool>(keyIsPrimary, isPrimary ?? false);
+
+  set isPrimary(bool? isPrimary) => set<bool>(keyIsPrimary, isPrimary ?? false);
 
   String get tag => get<String>(keyTag)!;
-  set tag(String tag) =>
-      set<String>(keyTag, tag);
+
+  set tag(String tag) => set<String>(keyTag, tag);
 
   bool get isOffer => get<bool>(keyIsOffer)!;
-  set isOffer(bool? isOffer) =>
-      set<bool>(keyIsOffer, isOffer ?? false);
+
+  set isOffer(bool? isOffer) => set<bool>(keyIsOffer, isOffer ?? false);
 
   int get searchCode => get<int>(keySearchCode)!;
   set searchCode(int? searchCode) =>
       set<int>(keySearchCode, searchCode ?? hashCode);
 
   String get shop => get<String>(keyShop)!;
-  set shop(String shop) =>
-      set<String>(keyShop, shop);
+
+  set shop(String shop) => set<String>(keyShop, shop);
 
   DateTime? get shopDate => get<DateTime?>(keyShopDate);
-  set shopDate(DateTime? shopDate) =>
-      set<DateTime?>(keyShopDate, shopDate);
+
+  set shopDate(DateTime? shopDate) => set<DateTime?>(keyShopDate, shopDate);
 
   @override
   bool operator ==(Object other) {
@@ -62,19 +60,17 @@ class Product extends ParseObject implements ParseCloneable {
 
   factory Product.fromMap(Map<String, dynamic> objectData) {
     return Product()
-      ..productName = objectData[keyName]
-      ..tag = objectData[keyTag]
-      ..price = objectData[keyPrice]
-      ..realPrice = objectData[keyRealPrice]
-      ..isPrimary = objectData[keyIsPrimary]
-      ..isOffer = objectData[keyIsOffer]
-      ..category = objectData[keyCategory]
+      ..productName = objectData[keyName] as String
+      ..tag = objectData[keyTag] as String
+      ..price = objectData[keyPrice] as double
+      ..realPrice = objectData[keyRealPrice] as double
+      ..isPrimary = objectData[keyIsPrimary] as bool
+      ..isOffer = objectData[keyIsOffer] as bool
+      ..category = objectData[keyCategory] as String
       ..searchCode = objectData[keyName].hashCode
-      ..shop= objectData[keyShop]
-      ..shopDate=(objectData[keyShopDate] as DateTime).addHours(12)
-    ;
+      ..shop = objectData[keyShop] as String
+      ..shopDate = (objectData[keyShopDate] as DateTime).addHours(12);
   }
-
 
   factory Product.fromName(String name) {
     return Product()
@@ -86,7 +82,6 @@ class Product extends ParseObject implements ParseCloneable {
       ..isOffer = false
       ..category = 'alimento'
       ..searchCode = name.hashCode
-      ..shop= ''
-    ;
+      ..shop = '';
   }
 }

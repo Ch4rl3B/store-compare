@@ -54,7 +54,7 @@ class ProductService extends GetxService implements ProductServiceContract {
     for (final product in productsToSave) {
       final response = await product.save();
       if (response.success) {
-        listToReturn.add(response.result);
+        listToReturn.add(response.result as Product);
       } else {
         throw Exception(response.error?.message);
       }

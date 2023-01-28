@@ -60,7 +60,7 @@ class ProductDetail extends GetView<HomeController> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                      primary: context.theme.colorScheme.secondary),
+                      backgroundColor: context.theme.colorScheme.secondary),
                   child: Text('▲: ${controller.getMax}'),
                 ),
               ),
@@ -72,7 +72,7 @@ class ProductDetail extends GetView<HomeController> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                      primary: context.theme.primaryColorDark),
+                      backgroundColor: context.theme.primaryColorDark),
                   child: Text('regular: ${controller.getMedia}'),
                 ),
               ),
@@ -84,7 +84,7 @@ class ProductDetail extends GetView<HomeController> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: context.theme.primaryColorLight,
+                    backgroundColor: context.theme.primaryColorLight,
                   ),
                   child: Text('▼: ${controller.getMin}'),
                 ),

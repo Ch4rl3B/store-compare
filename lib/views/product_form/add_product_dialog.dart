@@ -67,7 +67,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                 builder: (context, picker, child) {
                   return ReactiveTextField(
                     formControlName: keyShopDate,
-                    onTap: picker.showPicker,
+                    onTap: (control) => picker.showPicker(),
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.date_range),
                         label: Text('Fecha de la Compra')),
@@ -81,15 +81,17 @@ class AddProductDialog extends GetView<AddProductDialogController> {
             ReactiveTextField<String>(
               key: const ValueKey(keyName),
               formControlName: keyName,
-              validationMessages: (control) =>
-                  {'required': 'El campo no debe estar vacío'},
+              validationMessages: {
+                'required': (control) => 'El campo no debe estar vacío',
+              },
               decoration: const InputDecoration(label: Text('Nombre Aleman')),
             ),
             ReactiveTextField<String>(
               key: const ValueKey(keyTag),
               formControlName: keyTag,
-              validationMessages: (control) =>
-                  {'required': 'El campo no debe estar vacío'},
+              validationMessages: {
+                'required': (control) => 'El campo no debe estar vacío',
+              },
               decoration: const InputDecoration(label: Text('Identificador')),
             ),
             Row(
@@ -102,8 +104,9 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                     valueAccessor: NumValueAccessor(),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
-                    validationMessages: (control) =>
-                        {'required': 'El campo no debe estar vacío'},
+                    validationMessages: {
+                      'required': (control) => 'El campo no debe estar vacío',
+                    },
                     decoration:
                         const InputDecoration(label: Text('Precio x Unidad')),
                   ),
@@ -118,8 +121,9 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
                     valueAccessor: NumValueAccessor(),
-                    validationMessages: (control) =>
-                        {'required': 'El campo no debe estar vacío'},
+                    validationMessages: {
+                      'required': (control) => 'El campo no debe estar vacío',
+                    },
                     decoration:
                         const InputDecoration(label: Text('Precio Total')),
                   ),
@@ -157,8 +161,9 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                         child: Text(e.value),
                       ))
                   .toList(),
-              validationMessages: (control) =>
-                  {'required': 'El campo no debe estar vacío'},
+              validationMessages: {
+                'required': (control) => 'El campo no debe estar vacío',
+              },
               decoration: const InputDecoration(label: Text('Tienda')),
             ),
             Row(
@@ -202,7 +207,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                   padding: const EdgeInsets.all(8),
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                        primary: context.theme.colorScheme.secondary),
+                        backgroundColor: context.theme.colorScheme.secondary),
                     icon: const Icon(Icons.cleaning_services),
                     label: const Text('Limpiar'),
                     onPressed: form.pristine ? null : controller.clean,
@@ -216,7 +221,7 @@ class AddProductDialog extends GetView<AddProductDialogController> {
                   padding: const EdgeInsets.all(8),
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                        primary: context.theme.colorScheme.error),
+                        backgroundColor: context.theme.colorScheme.error),
                     icon: const Icon(Icons.close),
                     label: const Text('Cancelar'),
                     onPressed: controller.cancel,
