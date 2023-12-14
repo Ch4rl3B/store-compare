@@ -15,7 +15,7 @@ jobs:
     # Job name is Running Tests
     name: Tests
     # This job runs on Linux
-    runs-on: ubuntu-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
@@ -28,7 +28,7 @@ jobs:
 
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
